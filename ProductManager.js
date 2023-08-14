@@ -1,9 +1,9 @@
-const fs = require("fs")
+import fs from "fs"
 
 class ProductManager {
   constructor() {
-    this.path = "./products.json"
-    this.path2 = "./usedIds.json"
+    this.path = "./data/products.json"
+    this.path2 = "./data/usedIds.json"
   }
   getProducts = async() => {
     if(fs.existsSync(this.path)) {
@@ -11,7 +11,6 @@ class ProductManager {
       const product = JSON.parse(data)
       return product
     } else {
-      
       await fs.promises.writeFile(this.path,"[]")
     }
   }
@@ -25,7 +24,6 @@ class ProductManager {
       await fs.promises.writeFile(this.path2,"[1]")
       actualId = [0]
     }
-    
     let codeExist = false
     products.forEach((e) => {
       if (e.code === product.code) {
@@ -69,24 +67,21 @@ class ProductManager {
       const index = products.findIndex((p)=>p.id === productUpdated.id)
       products[index] = productUpdated
       await fs.promises.writeFile(this.path,JSON.stringify(products))
-      return "El producto se actulizó correctamente"
+      return `El producto se actulizó correctamente`
     }
-    
   }
-  
   deleteProduct = async(id)=>{
     const product = await this.getProductById(id)
     if(typeof product === "string") {
-      return `El producto de id ${id} no existe`
+      return `El producto de id: ${id} no existe`
     }else {
       const products = await this.getProducts()
       const index = products.findIndex((p)=> p.id === id)
       products.splice(index,1)
       await fs.promises.writeFile(this.path,JSON.stringify(products))
-      return "El producto se borró exitosamente"
-    }
-    
+      return `El producto de id: ${id} se borró exitosamente`
+    } 
   }
 }
 
-module.exports = ProductManager
+export default ProductManager
