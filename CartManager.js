@@ -59,6 +59,25 @@ class CartManager {
         await fs.promises.writeFile(this.path,JSON.stringify(carts))
         return `Se cargó el producto de id: ${pid} al carrito de id: ${cid}`
       }
+      getCartIndex = async (id) => {
+        const data = await fs.promises.readFile(this.path,"utf-8")
+        const carts = JSON.parse(data)
+        const indexFound = carts.findIndex((c)=>c.id === id)
+        return indexFound
+      }
+      deleteCart = async (id) => {
+        const data = await fs.promises.readFile(this.path,"utf-8")
+        const carts = JSON.parse(data)
+        const cartIndex = await this.getCartIndex(id)
+        console.log(cartIndex)
+        if(cartIndex===-1) {
+          return `El carrito de id: ${id} no se encontró`
+        } else {
+          carts.splice(cartIndex,1)
+          await fs.promises.writeFile(this.path,JSON.stringify(carts))
+          return `Carrito de id: ${id} borrado.`
+        }
+      }
 }
 
 export default CartManager

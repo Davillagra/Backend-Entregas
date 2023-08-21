@@ -30,5 +30,13 @@ router.post("/:cid/product/:pid", async (req,res)=>{
     const pushProducts = await carrito.pushProducts(cid,pid)
     return res.send({status: `success`,message:pushProducts})
 })
+router.delete(`/:id`, async (req,res)=>{
+    const cartID = +req.params.id
+    const deleteCart = await carrito.deleteCart(cartID)
+    if(deleteCart === `El carrito de id: ${cartID} no se encontró`){
+        return res.status(404).send({status: `error`,error:deleteCart})
+    }
+    res.send({status: `success`,message:deleteCart})
+})
 
 export default router

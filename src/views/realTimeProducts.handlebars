@@ -1,0 +1,16 @@
+<div id="productos">
+    <h1>Productos con Websockets</h1>
+    {{#each consulta}}
+        <div>
+            <h2>Producto: {{this.title}}</h2>
+            <p>Descripccion: {{this.description}}</p>
+            <p>Precio: ${{this.price}}</p>
+            <p>Codigo: {{this.code}}</p>
+            <p>Stock: ${{this.stock}}</p>
+        </div>
+    {{/each}}
+
+</div>
+<!--<script src="/socket.io/socket.io.js"></script>-->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.js"></script>
+<script type="module" src="/js/realTimeProducts.js"></script>

@@ -2,14 +2,14 @@ import fs from "fs"
 
 class ProductManager {
   constructor() {
-    this.path = "./data/products.json"
-    this.path2 = "./data/usedIds.json"
+    this.path = "./src/data/products.json"
+    this.path2 = "./src/data/usedIds.json"
   }
   getProducts = async() => {
     if(fs.existsSync(this.path)) {
       const data = await fs.promises.readFile(this.path,"utf-8")
-      const product = JSON.parse(data)
-      return product
+      const products = JSON.parse(data)
+      return products
     } else {
       await fs.promises.writeFile(this.path,"[]")
     }
