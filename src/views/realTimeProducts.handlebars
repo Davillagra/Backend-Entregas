@@ -1,13 +1,22 @@
 <div id="productos">
     <h1>Productos con Websockets</h1>
     {{#each consulta}}
-        <div>
-            <h2>Producto: {{this.title}}</h2>
-            <p>Descripccion: {{this.description}}</p>
-            <p>Precio: ${{this.price}}</p>
-            <p>Codigo: {{this.code}}</p>
-            <p>Stock: ${{this.stock}}</p>
-        </div>
+    <div>
+        <form id="{{this.id}}">
+            <input required type="text" name="tittle">Producto: {{this.title}}</input>
+            <br>
+            <input required type="text" name="description">Descripccion: {{this.description}}</input>
+            <br>
+            <input required type="number" name="price">Precio: ${{this.price}}</input>
+            <br>
+            <span class="code" name="code">{{this.code}}</span>
+            <br>
+            <input required type="number" name="stock">Stock: ${{this.stock}}</input>
+            <br>
+            <button type="submit">Enviar</button>
+            <br>
+        </form>
+    </div>
     {{/each}}
 
 </div>

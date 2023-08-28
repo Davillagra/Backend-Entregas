@@ -61,8 +61,8 @@ router.post("/", async (req,res)=>{
 })
 
 router.put(`/:id`, async (req,res)=>{
-    const prodcutID = +req.params.id
-    const product = req.body
+    let prodcutID = +req.params.id
+    let product = req.body
     const index = getProducts.findIndex((p)=>p.id===prodcutID)
     if(index === -1){
         return res.status(404).send({status: `error`,error:`No se encontró el id`})
