@@ -1,5 +1,6 @@
-<div id="productos">
+<div>
     <h1>Productos con Websockets</h1>
+    <div id="productos">
     {{#each consulta}}
     <div>
         <form id="{{this.id}}">
@@ -9,16 +10,16 @@
             <br>
             <input required type="number" name="price">Precio: ${{this.price}}</input>
             <br>
-            <span class="code" name="code">{{this.code}}</span>
+            <span>Codigo: </span><span class="code" name="code">{{this.code}}</span>
             <br>
-            <input required type="number" name="stock">Stock: ${{this.stock}}</input>
+            <input required type="number" name="stock">Stock: {{this.stock}}</input>
             <br>
             <button type="submit">Enviar</button>
             <br>
         </form>
     </div>
     {{/each}}
-
+    </div>
 </div>
 <!--<script src="/socket.io/socket.io.js"></script>-->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.js"></script>

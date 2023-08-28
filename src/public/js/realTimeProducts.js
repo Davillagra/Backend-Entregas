@@ -45,7 +45,7 @@ const updateProducts = async (data) => {
                 <br>
                 <input required type="number" name="price">Precio: ${producto.price}</input>
                 <br>
-                <span class="code" name="code">Codigo: ${producto.code}</span>
+                <span>Codigo: </span><span class="code" name="code">${producto.code}</span>
                 <br>
                 <input required type="number" name="stock">Stock: ${producto.stock}</input>
                 <br>

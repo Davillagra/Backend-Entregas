@@ -26,11 +26,10 @@ const server = app.listen(8080,()=>{console.log(`Servidor en linea en el puerto 
 const io = new Server(server)
 io.on(`connection`, socket =>{
     console.log("Nuevo socket conectado")
-    socket.on(`message`,data=>{
-        console.log(data)
-    })
     socket.on('form', async (formData) => {
-        const updateProduct = await productos.updateProduct(formData.id, formData)
+        await productos.updateProduct(formData.id, formData)
+        const data = await productos.getProducts()
+        io.emit("change",{data})
     })
 })
 
