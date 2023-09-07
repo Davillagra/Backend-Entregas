@@ -1,42 +1,49 @@
 import { Router } from "express";
-import CartManager from "../../CartManager.js"
-import ProductManager from "../../ProductManager.js";
+import CartManager from "../dao/CartManager.js"
 
 const router = Router()
 const carrito = new CartManager()
-const productos = new ProductManager()
-
 
 router.post("/", async (req,res)=>{
     const getNewCart = await carrito.getNewCart()
-    return res.send({status: `success`,message:getNewCart})
+    if(!getNewCart.message){
+        return res.status(201).send({status:"success",message:getNewCart})
+    } else {
+        return res.status(400).send({status:"error",message:getNewCart.message})
+    }
+    
 })
 router.get("/:cid", async (req,res)=>{
-    const cid = +req.params.cid
+    const cid = req.params.cid
     const getCartById = await carrito.getCartById(cid)
-    return res.send({status: `success`,message:getCartById})
+    if(getCartById){
+        return res.send({status:"success",message:getCartById})
+    } else {
+        return res.status(404).send({status:"error",message:"Cart not found"})
+    }
 })
 router.post("/:cid/product/:pid", async (req,res)=>{
-    const cid = +req.params.cid
-    const pid = +req.params.pid
-    const getCartById = await carrito.getCartById(cid)
-    if(getCartById===`El carrito de id ${cid} no existe`){
-        return res.send({status: `success`,message:getCartById})
-    }
-    const getProductById = await productos.getProductById(pid)
-    if(getCartById===`El producto de id ${pid} no existe`){
-        return res.send({status: `success`,message:getProductById})
-    }
+    const cid = req.params.cid
+    const pid = req.params.pid
     const pushProducts = await carrito.pushProducts(cid,pid)
-    return res.send({status: `success`,message:pushProducts})
+    if(!pushProducts){
+        res.status(404).send({status:"error",message:"Cart not found"}) 
+    } else {
+        if(!pushProducts.message){
+            res.status(201).send({status:"success",message:`Product added`})
+        } else {
+            res.status(404).send({status:"error",message:pushProducts.message}) 
+        }    
+    } 
 })
 router.delete(`/:id`, async (req,res)=>{
-    const cartID = +req.params.id
+    const cartID = req.params.id
     const deleteCart = await carrito.deleteCart(cartID)
-    if(deleteCart === `El carrito de id: ${cartID} no se encontró`){
-        return res.status(404).send({status: `error`,error:deleteCart})
+    if(deleteCart.deletedCount == 1){
+        res.send({status:`success`,message:"Deleted cart"})
+    } else {
+        res.status(404).send({status: `error`,message:"No carts found"})
     }
-    res.send({status: `success`,message:deleteCart})
 })
 
 export default router

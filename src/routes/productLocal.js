@@ -1,12 +1,12 @@
 import { Router } from "express";
-import ProductManager from "../../ProductManager.js"
-import io from "../index.js"
+import ProductManager from "../dao/LocalProductManager.js"
+import {io} from "../index.js"
 
 const router = Router()
 const productos = new ProductManager()
 const getProducts = await productos.getProducts()
 
-router.get("/",(req,res) => {
+router.get("/realTimeProducts",(req,res) => {
     let limit = req.query.limit
     const consulta = []
     if (limit > 0 && limit) {
@@ -22,7 +22,7 @@ router.get("/",(req,res) => {
     res.render(`realTimeProducts`,{consulta})
 })
 
-router.get("/realtime/products",(req,res)=>{
+router.get("/",(req,res)=>{
     let limit = req.query.limit
     const consulta = []
     if (limit > 0 && limit) {

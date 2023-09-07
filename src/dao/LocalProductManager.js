@@ -1,6 +1,6 @@
 import fs from "fs"
 
-class ProductManager {
+class LocalProductManager {
   constructor() {
     this.path = "./src/data/products.json"
     this.path2 = "./src/data/usedIds.json"
@@ -84,4 +84,4 @@ class ProductManager {
   }
 }
 
-export default ProductManager
+export default LocalProductManager

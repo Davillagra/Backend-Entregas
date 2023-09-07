@@ -1,10 +1,9 @@
-import { json } from "express"
 import fs from "fs"
 
-class CartManager {
+class LocalCartManager {
     constructor() {
-        this.path = "./data/cart.json"
-        this.path2 = "./data/cartIDs.json"
+        this.path = "./src/data/cart.json"
+        this.path2 = "./src/data/cartIDs.json"
       }
       getNewCart = async()=>{
         let actualCartID
@@ -80,4 +79,4 @@ class CartManager {
       }
 }
 
-export default CartManager
+export default LocalCartManager

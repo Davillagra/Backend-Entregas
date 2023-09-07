@@ -14,7 +14,25 @@
 					"request": {
 						"method": "GET",
 						"header": [],
-						"url": "localhost:8080/api/products"
+						"url": {
+							"raw": "localhost:8080/api/products/",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"products",
+								""
+							],
+							"query": [
+								{
+									"key": "limit",
+									"value": "1",
+									"disabled": true
+								}
+							]
+						}
 					},
 					"response": []
 				},
@@ -23,7 +41,7 @@
 					"request": {
 						"method": "GET",
 						"header": [],
-						"url": "localhost:8080/api/products/4"
+						"url": "localhost:8080/api/products/64f622f2f98369370338617f"
 					},
 					"response": []
 				},
@@ -34,7 +52,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"title\": \"producto posteado\",\r\n    \"description\": \"post\",\r\n    \"price\": 6546,\r\n    \"code\": \"codigo 8\",\r\n    \"stock\": 8\r\n}",
+							"raw": "[\r\n  {\r\n    \"title\": \"Producto 1\",\r\n    \"description\": \"Descripción del Producto 1\",\r\n    \"price\": 10.99,\r\n    \"thumbnail\": \"thumbnail 1\",\r\n    \"code\": \"PROD851\",\r\n    \"stock\": 50\r\n  }\r\n]\r\n",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -52,14 +70,14 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"title\": \"Producto actualizado para sockets\",\r\n    \"description\": \"put\",\r\n    \"price\": 500,\r\n    \"stock\": 5\r\n}",
+							"raw": "{\r\n    \"title\": \"Update por postman\",\r\n    \"description\": \"Descripción del Producto 1\",\r\n    \"price\": 10.99,\r\n    \"thumbnail\": \"imagen1.jpg\",\r\n    \"stock\": 50\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
 								}
 							}
 						},
-						"url": "localhost:8080/api/products/2"
+						"url": "localhost:8080/api/products/64f622f2f98369370338617f"
 					},
 					"response": []
 				},
@@ -68,7 +86,7 @@
 					"request": {
 						"method": "DELETE",
 						"header": [],
-						"url": "localhost:8080/api/products/1"
+						"url": "localhost:8080/api/products/64f622f2f98369370338617f"
 					},
 					"response": []
 				}
@@ -82,7 +100,7 @@
 					"request": {
 						"method": "POST",
 						"header": [],
-						"url": "localhost:8080/api/cart"
+						"url": "localhost:8080/api/cart/"
 					},
 					"response": []
 				},
@@ -91,7 +109,7 @@
 					"request": {
 						"method": "GET",
 						"header": [],
-						"url": "localhost:8080/api/cart/0"
+						"url": "localhost:8080/api/cart/64f8cae53bcfa6d1c607f657"
 					},
 					"response": []
 				},
@@ -100,7 +118,7 @@
 					"request": {
 						"method": "POST",
 						"header": [],
-						"url": "localhost:8080/api/cart/1/product/3"
+						"url": "localhost:8080/api/cart/64f8cae53bcfa6d1c607f657/product/64f622f2f983693703386180"
 					},
 					"response": []
 				},
@@ -109,7 +127,7 @@
 					"request": {
 						"method": "DELETE",
 						"header": [],
-						"url": "localhost:8080/api/cart/2"
+						"url": "localhost:8080/api/cart/64f8bf324249196defdfc1f2"
 					},
 					"response": []
 				}
