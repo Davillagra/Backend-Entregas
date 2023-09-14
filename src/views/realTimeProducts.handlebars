@@ -19,6 +19,12 @@
         </form>
     </div>
     {{/each}}
+    {{#if hasPrevPage}}
+    <a href="/api/products/realtimeproducts?page={{prevPage}}"><button>Anterior</button></a>
+    {{/if }}
+    {{#if hasNextPage}}
+    <a href="/api/products/realtimeproducts?page={{nextPage}}"><button>Siguiente</button></a>
+    {{/if }}
     </div>
 </div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.js"></script>

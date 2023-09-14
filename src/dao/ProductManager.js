@@ -5,17 +5,24 @@ const conection = connect
 
 class ProductManager {
   constructor() {}
-  getProducts = async(limit) => {
-      const products = await productModel.find().limit(limit)
-      return products
+  getProducts = async(limit,page,sort,query) => {
+    let products
+    let filter = {}
+    if (query === "disponible") {
+      filter.stock = { $gt: 0 }
+    } else if (query === "no disponible") {
+      filter.stock = { $eq: 0 }
+    }
+    if(sort){
+      products = await productModel.paginate(filter,{limit:limit,page:page,sort:{price:sort}})
+    } else {
+      products = await productModel.paginate(filter,{limit:limit,page:page})
+    }
+    return products
   }
     getProductById = async(id) => {
-    try {
       const product = await productModel.findOne({_id:id})
       return product
-    } catch (error) {
-      return error
-    }
   }
   addProduct = async (product) => {
     try {

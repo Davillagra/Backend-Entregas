@@ -6,22 +6,39 @@ const router = Router()
 const productos = new ProductManager()
 
 router.get("/", async (req,res)=>{
-    const limit = req.query.limit
-    const products = await productos.getProducts(limit)
-    res.send(products)
+    const limit = req.query.limit || 10
+    const page = req.query.page || 1
+    const query = req.query.query
+    const sort = req.query.sort || ""
+    const products = await productos.getProducts(limit,page,sort,query)
+    res.send({
+        status:"succes",
+        payload:products.docs,
+        totalPages:products.totalPages,
+        prevPage:products.prevPage,
+        nextPage:products.nextPage,
+        hasPrevPage:products.hasPrevPage,
+        hasNextPage:products.hasNextPage,
+        prevLink: products.prevPage ? `/api/products/realtimeproducts?page=${products.prevPage}&limit=${limit}&query=${query}&sort=${sort}` : null ,
+        nextLink: products.nextPage ? `/api/products/realtimeproducts?page=${products.nextPage}&limit=${limit}&query=${query}&sort=${sort}` : null
+    })
 })
 router.get("/realtimeProducts", async (req,res) => {
-    const productsa = await productos.getProducts()
+    const limit = req.query.limit || 10
+    const page = req.query.page || 1
+    const query = req.query.query
+    const sort = req.query.sort || ""
+    const productsa = await productos.getProducts(limit,page,sort,query)
     const products  = []
-    productsa.forEach(e => {
+    productsa.docs.forEach(e => {
         products.push({_id:e._id,title:e.title,description:e.description,price:e.price,thumbnail:e.thumbnail,code:e.code,stock:e.stock})
     })
-    res.render(`realtimeProducts`,{products})
+    res.render(`realtimeProducts`,{products,hasNextPage:productsa.hasNextPage,hasPrevPage:productsa.hasPrevPage,nextPage:productsa.nextPage,prevPage:productsa.prevPage})
 })
 router.get("/:id", async (req,res)=> {
     const productID = req.params.id
     const product = await productos.getProductById(productID)
-    if(!product.message){
+    if(product){
         res.send({status:"succes",message:product})
     } else {
         res.status(404).send({status:"error",message:"Product not found"})

@@ -36,6 +36,16 @@ router.post("/:cid/product/:pid", async (req,res)=>{
         }    
     } 
 })
+router.delete(`/:cid/product/:pid`, async (req,res)=>{
+    const cartID = req.params.cid
+    const prodID = req.params.pid
+    const deleteProd = await carrito.deleteProd(cartID,prodID)
+    if(deleteProd.found){
+        res.send({status:`success`,message:deleteProd.found})
+    } else {
+        res.status(404).send({status: `error`,message:deleteProd})
+    }
+})
 router.delete(`/:id`, async (req,res)=>{
     const cartID = req.params.id
     const deleteCart = await carrito.deleteCart(cartID)
@@ -43,6 +53,42 @@ router.delete(`/:id`, async (req,res)=>{
         res.send({status:`success`,message:"Deleted cart"})
     } else {
         res.status(404).send({status: `error`,message:"No carts found"})
+    }
+})
+router.put("/:cid", async (req,res)=>{
+    const cid = req.params.cid
+    const prodArray = req.body
+    const putProducts = await carrito.putProducts(cid,prodArray)
+    if(!putProducts){
+        res.status(404).send({status:"error",message:"Cart not found"}) 
+    } else {
+        if(!putProducts.message){
+            res.status(201).send({status:"success",message:`Products added`})
+        } 
+    } 
+})
+router.put("/:cid/products/:pid", async (req,res)=> {
+    const cid = req.params.cid
+    const pid = req.params.pid
+    const prodQuantity = req.body
+    const updateQuantity = await carrito.updateQuantity(cid,pid,prodQuantity)
+    if(updateQuantity.message || updateQuantity==-1){
+        if(updateQuantity==-1){
+            res.status(404).send({status:"error",message:"Prod not found"})
+        } else {
+            res.status(404).send({status:"error",message:"Cart not found"})
+        }
+    } else {
+        res.status(201).send({status:"success",message:updateQuantity})
+    }
+})
+router.delete(`/:cid/products`, async (req,res)=>{
+    const cid = req.params.cid
+    const deleteProd = await carrito.deleteProducts(cid)
+    if(deleteProd.modifiedCount == 1){
+        res.send({status:`success`,message:`Prodcuts deleted from cart: ${cid}`})
+    } else {
+        res.status(404).send({status: `error`,message:"Cart not found"})
     }
 })
 
