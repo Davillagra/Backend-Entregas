@@ -9,7 +9,10 @@ import mongoose from "mongoose"
 import localProductsRouter from "./routes/productLocal.js"
 import localCartsRouter from "./routes/cartLocal.js"
 import chatRouter from "./routes/chat.js"
+import viewProductsRouter from "./routes/viewProducts.js"
+import viewCartsRouter from "./routes/viewCarts.js"
 import ChatManager from "./dao/ChatManager.js"
+import CartManager from "./dao/CartManager.js"
 
 const productos = new ProductManager()
 
@@ -30,7 +33,8 @@ app.use("/api/cart",cartsRouter)
 app.use("/api/productsLocal",localProductsRouter)
 app.use("/api/cartLocal",localCartsRouter)
 app.use("/api/chat",chatRouter)
-
+app.use("/products",viewProductsRouter)
+app.use("/carts",viewCartsRouter)
 
 mongoose.connect(`mongodb+srv://Zorkanoid:uEBaZmoUJldNKnBP@cluster0.etq8mtb.mongodb.net/Ecomerce`)
 
@@ -52,6 +56,13 @@ io.on(`connection`, async socket =>{
         const newMessages = await chats.getMessages()
         console.log(dsadas)
         io.emit(`messageLogs`,newMessages)
+    })
+
+    const cart = new CartManager()
+    socket.on(`addToCart`, async (data)=>{
+        const cid = await cart.getNewCart()
+        const putProducts = await cart.putProducts(cid,[data])
+        io.emit(`cartUpdated`,putProducts)
     })
 })
 

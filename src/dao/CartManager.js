@@ -9,7 +9,7 @@ class CartManager {
         const newCart = new cartModel()
         try {
           const data = await cartModel.create(newCart)
-          return `Carrito generado con id: ${data._id}` 
+          return data._id
         } catch (error) {
           return error
         }

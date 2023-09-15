@@ -1,0 +1,29 @@
+<div>
+    <h1>Productos</h1>
+    <div id="productos">
+    {{#each products}}
+    <div>
+        <p type="text" name="tittle">Producto: {{this.title}}</p>
+        <p type="text" name="description">Descripccion: {{this.description}}</p>
+        <p type="number" name="price" min="0">Precio: ${{this.price}}</p>
+        <p type="text" name="code" >Codigo: {{this.code}}</p>
+        <p type="number" name="stock" min="0">Stock: {{this.stock}}</p>
+        <form id="">
+            <input type="number" min="1" max="{{this.stock}}" name="quantity">
+            <input type="text" style="display: none;" name="_id" value="{{this._id}}"/>
+            <button type="submit">Añadir al carrito</button>
+            <br>
+        </form>
+    </div>
+    {{/each}}
+    {{#if hasPrevPage}}
+    <a href="/products?page={{prevPage}}"><button>Anterior</button></a>
+    {{/if }}
+    {{#if hasNextPage}}
+    <a href="/products?page={{nextPage}}"><button>Siguiente</button></a>
+    {{/if }}
+    </div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="/socket.io/socket.io.js"></script>
+<script type="module" src="/js/viewProducts.js"></script>

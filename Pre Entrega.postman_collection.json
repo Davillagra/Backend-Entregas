@@ -11,11 +11,23 @@
 			"item": [
 				{
 					"name": "Products",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
 					"request": {
 						"method": "GET",
 						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
 						"url": {
-							"raw": "localhost:8080/api/products/",
+							"raw": "localhost:8080/api/products/?limit=5&page=1&query=disponible&sort=1",
 							"host": [
 								"localhost"
 							],
@@ -28,8 +40,19 @@
 							"query": [
 								{
 									"key": "limit",
-									"value": "1",
-									"disabled": true
+									"value": "5"
+								},
+								{
+									"key": "page",
+									"value": "1"
+								},
+								{
+									"key": "query",
+									"value": "disponible"
+								},
+								{
+									"key": "sort",
+									"value": "1"
 								}
 							]
 						}
@@ -109,7 +132,7 @@
 					"request": {
 						"method": "GET",
 						"header": [],
-						"url": "localhost:8080/api/cart/64f8cae53bcfa6d1c607f657"
+						"url": "localhost:8080/api/cart/6504933b0308e98c5055d43c"
 					},
 					"response": []
 				},
@@ -118,7 +141,7 @@
 					"request": {
 						"method": "POST",
 						"header": [],
-						"url": "localhost:8080/api/cart/64f8cae53bcfa6d1c607f657/product/64f622f2f983693703386180"
+						"url": "localhost:8080/api/cart/65035016e1f7627b2fd0085c/product/64f622f2f983693703386189"
 					},
 					"response": []
 				},
@@ -127,7 +150,84 @@
 					"request": {
 						"method": "DELETE",
 						"header": [],
-						"url": "localhost:8080/api/cart/64f8bf324249196defdfc1f2"
+						"url": "localhost:8080/api/cart/650328bb38c0271ebf9974e8"
+					},
+					"response": []
+				},
+				{
+					"name": "DeleteProd",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": "localhost:8080/api/cart/65032a2a559cb5056c2ad505/product/64f622f2f983693703386189"
+					},
+					"response": []
+				},
+				{
+					"name": "PutProducts",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "[\r\n    {\r\n        \"_id\":\"64f88d13fea2449081361563\",\r\n        \"quantity\":3\r\n    },\r\n    {\r\n        \"_id\":\"64f622f2f98369370338618\",\r\n        \"quantity\":1\r\n    }\r\n]",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "localhost:8080/api/cart/65032a2a559cb5056c2ad505"
+					},
+					"response": []
+				},
+				{
+					"name": "UpdateQuantity",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"quantity\":10}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "localhost:8080/api/cart/65032a2a559cb5056c2ad505/products/64f88d13fea2449081361563"
+					},
+					"response": []
+				},
+				{
+					"name": "DeleteProducts",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": "localhost:8080/api/cart/65035016e1f7627b2fd0085/products"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Chats",
+			"item": [
+				{
+					"name": "New Request",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"user\": \"pedro@dasda.com\", \"message\": \"hola\"}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "localhost:8080/api/chat/"
 					},
 					"response": []
 				}

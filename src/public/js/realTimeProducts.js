@@ -11,7 +11,6 @@ const updateForm = ()=>{
     event.preventDefault()
     const formData = new FormData(form)
     const _id = form.id
-    
     const title = formData.get('tittle')
     const description = formData.get('description')
     const price = formData.get('price')

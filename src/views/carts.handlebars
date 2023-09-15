@@ -1,0 +1,15 @@
+<div>
+    <h1>Carrito</h1>
+    <div id="carts">
+        <h1>Carrito:</h1>
+        <p>Productos:</p>
+    {{#each products}}
+        <p>{{this.title}}</p>
+        <p>Descripcion: {{this.description}}</p>
+        <p>$ {{this.price}}</p>
+        <p>Código: {{this.code}}</p>
+        <p>Cantidad: {{this.quantity}}</p>
+    {{/each}}
+    </div>
+</div>
+<script src="/socket.io/socket.io.js"></script>

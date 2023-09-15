@@ -7,7 +7,7 @@ const carrito = new CartManager()
 router.post("/", async (req,res)=>{
     const getNewCart = await carrito.getNewCart()
     if(!getNewCart.message){
-        return res.status(201).send({status:"success",message:getNewCart})
+        return res.status(201).send({status:"success",message:`Cart generated with id: ${getNewCart}`})
     } else {
         return res.status(400).send({status:"error",message:getNewCart.message})
     }
