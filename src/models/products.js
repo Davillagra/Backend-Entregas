@@ -42,6 +42,16 @@ const productSchema = new mongoose.Schema({
             message: 'The stock cannot be negative'
         }
     },
+    category: {
+        type: String,
+        enum: ['Category1', 'Category2', 'Category3', 'Category4'],
+        required: true
+    }
 })
+productSchema.virtual('hasStock').get(function() {
+    return this.stock > 0
+})
+productSchema.set('toJSON', { virtuals: true })
+
 productSchema.plugin(mongoosePaginate)
 export const productModel = mongoose.model(productCollection,productSchema)

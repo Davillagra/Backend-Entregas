@@ -8,10 +8,20 @@ class ProductManager {
   getProducts = async(limit,page,sort,query) => {
     let products
     let filter = {}
-    if (query === "disponible") {
-      filter.stock = { $gt: 0 }
-    } else if (query === "no disponible") {
-      filter.stock = { $eq: 0 }
+    switch (query) {
+      case "available":
+        filter.stock = { $gt: 0 }
+        break
+      case "not available":
+        filter.stock = { $eq: 0}
+        break
+      case "Category1":
+      case "Category2":
+      case "Category3":
+        filter.category = query
+        break  
+      default:
+          break
     }
     if(sort){
       products = await productModel.paginate(filter,{limit:limit,page:page,sort:{price:sort}})
@@ -20,9 +30,9 @@ class ProductManager {
     }
     return products
   }
-    getProductById = async(id) => {
-      const product = await productModel.findOne({_id:id})
-      return product
+  getProductById = async(id) => {
+    const product = await productModel.findOne({_id:id})
+    return product
   }
   addProduct = async (product) => {
     try {
@@ -34,8 +44,8 @@ class ProductManager {
   }
   updateProduct = async(id,updateData)=>{
     try {
-        await productModel.updateOne({_id:id},updateData,{runValidators:true})
-        return "Product updated"
+        const update = await productModel.updateOne({_id:id},updateData,{runValidators:true})
+        return update
     } catch (error) {
       return error
     }

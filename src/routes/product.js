@@ -31,7 +31,7 @@ router.get("/realtimeProducts", async (req,res) => {
     const productsa = await productos.getProducts(limit,page,sort,query)
     const products  = []
     productsa.docs.forEach(e => {
-        products.push({_id:e._id,title:e.title,description:e.description,price:e.price,thumbnail:e.thumbnail,code:e.code,stock:e.stock})
+        products.push({_id:e._id,title:e.title,description:e.description,price:e.price,thumbnail:e.thumbnail,code:e.code,stock:e.stock,category:e.category})
     })
     res.render(`realtimeProducts`,{products,hasNextPage:productsa.hasNextPage,hasPrevPage:productsa.hasPrevPage,nextPage:productsa.nextPage,prevPage:productsa.prevPage})
 })
@@ -61,12 +61,17 @@ router.put(`/:id`, async (req,res)=>{
     let prodcutID = req.params.id
     let product = req.body
     const updateProduct = await productos.updateProduct(prodcutID, product)
-    if(!updateProduct.message){
-        const data = await productos.getProducts()
-        io.emit("change", {data})
-        res.send({status:"succes",message:updateProduct})
+    console.log(updateProduct)
+    if(updateProduct.matchedCount == 0){
+        res.status(404).send({status:"error",message:"Product not found"})
     } else {
-        res.status(400).send({status:"error",message:updateProduct.message})
+        if(updateProduct.message){
+            res.status(400).send({status:"error",message:updateProduct.message})
+        } else {
+            const data = await productos.getProducts()
+            io.emit("change", {data})
+            res.send({status:"succes",message:"Product updated",info:updateProduct})
+        }
     } 
 })
 

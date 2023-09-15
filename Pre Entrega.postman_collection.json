@@ -27,7 +27,7 @@
 							}
 						},
 						"url": {
-							"raw": "localhost:8080/api/products/?limit=5&page=1&query=disponible&sort=1",
+							"raw": "localhost:8080/api/products/?&query=not available&page=1&limit=5",
 							"host": [
 								"localhost"
 							],
@@ -39,20 +39,20 @@
 							],
 							"query": [
 								{
-									"key": "limit",
-									"value": "5"
+									"key": null,
+									"value": null
+								},
+								{
+									"key": "query",
+									"value": "not available"
 								},
 								{
 									"key": "page",
 									"value": "1"
 								},
 								{
-									"key": "query",
-									"value": "disponible"
-								},
-								{
-									"key": "sort",
-									"value": "1"
+									"key": "limit",
+									"value": "5"
 								}
 							]
 						}
@@ -64,7 +64,7 @@
 					"request": {
 						"method": "GET",
 						"header": [],
-						"url": "localhost:8080/api/products/64f622f2f98369370338617f"
+						"url": "localhost:8080/api/products/6504b7599b7d3d94cce06992"
 					},
 					"response": []
 				},
@@ -75,7 +75,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "[\r\n  {\r\n    \"title\": \"Producto 1\",\r\n    \"description\": \"Descripción del Producto 1\",\r\n    \"price\": 10.99,\r\n    \"thumbnail\": \"thumbnail 1\",\r\n    \"code\": \"PROD851\",\r\n    \"stock\": 50\r\n  }\r\n]\r\n",
+							"raw": "[\r\n    {\r\n        \"category\": [\"Category3\"],\r\n        \"title\": \"Producto 1\",\r\n        \"description\": \"Descripción del Producto 1\",\r\n        \"price\": 19.99,\r\n        \"thumbnail\": \"imagen1.jpg\",\r\n        \"code\": \"PROD001\",\r\n        \"stock\": 50\r\n    }\r\n]\r\n",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -93,14 +93,14 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"title\": \"Update por postman\",\r\n    \"description\": \"Descripción del Producto 1\",\r\n    \"price\": 10.99,\r\n    \"thumbnail\": \"imagen1.jpg\",\r\n    \"stock\": 50\r\n}",
+							"raw": "{\r\n    \"title\": \"Update por postman\",\r\n    \"description\": \"Descripción del Producto\",\r\n    \"price\": 10.99,\r\n    \"thumbnail\": \"imagen1.jpg\",\r\n    \"stock\": 0\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
 								}
 							}
 						},
-						"url": "localhost:8080/api/products/64f622f2f98369370338617f"
+						"url": "localhost:8080/api/products/6504b7599b7d3d94cce06992"
 					},
 					"response": []
 				},
@@ -109,7 +109,7 @@
 					"request": {
 						"method": "DELETE",
 						"header": [],
-						"url": "localhost:8080/api/products/64f622f2f98369370338617f"
+						"url": "localhost:8080/api/products/6504b7599b7d3d94cce06993"
 					},
 					"response": []
 				}
@@ -132,7 +132,7 @@
 					"request": {
 						"method": "GET",
 						"header": [],
-						"url": "localhost:8080/api/cart/6504933b0308e98c5055d43c"
+						"url": "localhost:8080/api/cart/65032a2a559cb5056c2ad505"
 					},
 					"response": []
 				},
@@ -170,7 +170,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "[\r\n    {\r\n        \"_id\":\"64f88d13fea2449081361563\",\r\n        \"quantity\":3\r\n    },\r\n    {\r\n        \"_id\":\"64f622f2f98369370338618\",\r\n        \"quantity\":1\r\n    }\r\n]",
+							"raw": "[\r\n    {\r\n        \"_id\":\"64f88d13fea2449081361563\",\r\n        \"quantity\":3\r\n    },\r\n    {\r\n        \"_id\":\"64f622f2f98369370338618b\",\r\n        \"quantity\":2\r\n    }\r\n]",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -204,7 +204,7 @@
 					"request": {
 						"method": "DELETE",
 						"header": [],
-						"url": "localhost:8080/api/cart/65035016e1f7627b2fd0085/products"
+						"url": "localhost:8080/api/cart/65035016e1f7627b2fd0085c/products"
 					},
 					"response": []
 				}
