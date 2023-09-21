@@ -15,6 +15,6 @@ router.get("/", async (req,res) => {
     productsa.docs.forEach(e => {
         products.push({_id:e._id,title:e.title,description:e.description,price:e.price,thumbnail:e.thumbnail,code:e.code,stock:e.stock})
     })
-    res.render(`products`,{products,hasNextPage:productsa.hasNextPage,hasPrevPage:productsa.hasPrevPage,nextPage:productsa.nextPage,prevPage:productsa.prevPage})
+    res.render(`products`,{products,hasNextPage:productsa.hasNextPage,hasPrevPage:productsa.hasPrevPage,nextPage:productsa.nextPage,prevPage:productsa.prevPage,user:req.session.user})
 })
 export default router

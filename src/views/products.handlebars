@@ -1,28 +1,40 @@
 <div>
-    <h1>Productos</h1>
+  <h1>Productos</h1>
+  <div>
+    {{#if user.name}}
+    <h2>Bienvenido {{user.name}}</h2><Button><a href="/profile">Ir al perfil</a></Button>
+    {{else}}
+    <h2>Inicie la sesion para añadir productos al carrito</h2>
+    <button><a href="/login">Iniciar</a></button>
+    {{/if}}
     <div id="productos">
-    {{#each products}}
-    <div>
+      {{#each products}}
+        <div>
         <p type="text" name="tittle">Producto: {{this.title}}</p>
         <p type="text" name="description">Descripccion: {{this.description}}</p>
         <p type="number" name="price" min="0">Precio: ${{this.price}}</p>
         <p type="text" name="code" >Codigo: {{this.code}}</p>
         <p type="number" name="stock" min="0">Stock: {{this.stock}}</p>
-        <form id="">
+        {{#if ../user.name}}
+        <form>
             <input type="number" min="1" max="{{this.stock}}" name="quantity">
             <input type="text" style="display: none;" name="_id" value="{{this._id}}"/>
             <button type="submit">Añadir al carrito</button>
             <br>
         </form>
+        {{/if}}
+        </div>
+        <br>
+      {{/each}}
+      {{#if hasPrevPage}}
+        <a href="/products?page={{prevPage}}"><button>Anterior</button></a>
+      {{/if}}
+      {{#if hasNextPage}}
+        <a href="/products?page={{nextPage}}"><button>Siguiente</button></a>
+      {{/if}}
     </div>
-    {{/each}}
-    {{#if hasPrevPage}}
-    <a href="/products?page={{prevPage}}"><button>Anterior</button></a>
-    {{/if }}
-    {{#if hasNextPage}}
-    <a href="/products?page={{nextPage}}"><button>Siguiente</button></a>
-    {{/if }}
-    </div>
+  </div>
+
 </div>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script src="/socket.io/socket.io.js"></script>

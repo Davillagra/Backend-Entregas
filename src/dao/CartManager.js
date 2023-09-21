@@ -21,9 +21,7 @@ class CartManager {
       pushProducts = async (cid,pid)=>{
         try {
           const cart = await this.getCartById(cid)
-          if(!cart){
-            return cart
-          } else {
+          if(cart) {
             const index = cart.products.findIndex((p) => p.product._id.toString() === pid)
             if (index !== -1) {
               cart.products[index].quantity += 1

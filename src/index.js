@@ -13,6 +13,10 @@ import viewProductsRouter from "./routes/viewProducts.js"
 import viewCartsRouter from "./routes/viewCarts.js"
 import ChatManager from "./dao/ChatManager.js"
 import CartManager from "./dao/CartManager.js"
+import viewRouter  from "./routes/views.js"
+import sessionRouter from "./routes/sessions.js"
+import session from 'express-session'
+import MongoStore from "connect-mongo"
 
 const productos = new ProductManager()
 
@@ -24,9 +28,20 @@ app.set(`views`,__dirname + `/views`)
 app.set(`view engine`,`handlebars`)
 app.use(express.static(__dirname + `/public`))
 
-app.get("/",(req,res) => {
-    res.send("Servidor en linea")
+mongoose.connect(`mongodb+srv://Zorkanoid:uEBaZmoUJldNKnBP@cluster0.etq8mtb.mongodb.net/Ecomerce`,{
+    useNewUrlParser:true,
+    useUnifiedTopology:true
 })
+
+app.use(session({
+    store: MongoStore.create({
+        mongoUrl: 'mongodb+srv://Zorkanoid:uEBaZmoUJldNKnBP@cluster0.etq8mtb.mongodb.net/Ecomerce',
+        ttl: 3600
+    }),
+    secret: "CoderSecret",
+    resave: false,
+    saveUninitialized: false
+}))
 
 app.use("/api/products",productsRouter)
 app.use("/api/cart",cartsRouter)
@@ -35,8 +50,9 @@ app.use("/api/cartLocal",localCartsRouter)
 app.use("/api/chat",chatRouter)
 app.use("/products",viewProductsRouter)
 app.use("/carts",viewCartsRouter)
+app.use(viewRouter)
+app.use("/api/sessions",sessionRouter)
 
-mongoose.connect(`mongodb+srv://Zorkanoid:uEBaZmoUJldNKnBP@cluster0.etq8mtb.mongodb.net/Ecomerce`)
 
 const server = app.listen(8080,()=>{console.log(`Servidor en linea en el puerto 8080`)})
 const io = new Server(server)

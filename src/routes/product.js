@@ -20,7 +20,7 @@ router.get("/", async (req,res)=>{
         hasPrevPage:products.hasPrevPage,
         hasNextPage:products.hasNextPage,
         prevLink: products.prevPage ? `/api/products/realtimeproducts?page=${products.prevPage}&limit=${limit}&query=${query}&sort=${sort}` : null ,
-        nextLink: products.nextPage ? `/api/products/realtimeproducts?page=${products.nextPage}&limit=${limit}&query=${query}&sort=${sort}` : null
+        nextLink: products.nextPage ? `/api/products/realtimeproducts?page=${products.nextPage}&limit=${limit}&query=${query}&sort=${sort}` : null ,
     })
 })
 router.get("/realtimeProducts", async (req,res) => {
