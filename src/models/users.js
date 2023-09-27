@@ -8,7 +8,6 @@ const userSchema = new mongoose.Schema({
     last_name: String,
     email: {
         type: String,
-        required: true,
         validate: {
             validator: (value) => validator.isEmail(value),
             message: 'Must be a valid email'
@@ -20,7 +19,8 @@ const userSchema = new mongoose.Schema({
         enum: ['admin', 'user'],
         default: 'user'
     },
-    age: Number
+    age: Number,
+    userName: String
 })
 
 export const usersModel = mongoose.model(userCollection,userSchema)

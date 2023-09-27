@@ -17,6 +17,8 @@ import viewRouter  from "./routes/views.js"
 import sessionRouter from "./routes/sessions.js"
 import session from 'express-session'
 import MongoStore from "connect-mongo"
+import passport from "passport"
+import initializePassport from "./config/passport.js"
 
 const productos = new ProductManager()
 
@@ -42,6 +44,9 @@ app.use(session({
     resave: false,
     saveUninitialized: false
 }))
+initializePassport()
+app.use(passport.initialize())
+app.use(passport.session())
 
 app.use("/api/products",productsRouter)
 app.use("/api/cart",cartsRouter)

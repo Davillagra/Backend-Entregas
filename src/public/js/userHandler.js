@@ -17,11 +17,14 @@ if(form){
             return result.json()
         }
     }).then(json => {
-        if (json.payload.role === "admin") {
+        if(!json.error){
+            if (json.payload.role === "admin") {
             window.location.replace('/api/products/realTimeProducts')
         } else {
             window.location.replace('/products')
         }
+        }
+        
     })
     form.reset()
 })
