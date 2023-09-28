@@ -1,6 +1,12 @@
 <div>
     <h1>Productos con Websockets</h1>
     <div id="productos">
+    {{#if user.name}}
+    <h2>Bienvenido {{user.name}}</h2><Button><a href="/profile">Ir al perfil</a></Button>
+    {{else}}
+    <h2>Inicie la sesion para añadir productos al carrito</h2>
+    <button><a href="/login">Iniciar</a></button>
+    {{/if}}
     {{#each products}}
     <div>
         <form id="{{this._id}}">
@@ -20,10 +26,10 @@
     </div>
     {{/each}}
     {{#if hasPrevPage}}
-    <a href="/api/products/realtimeproducts?page={{prevPage}}"><button>Anterior</button></a>
+    <a href="/products/admin?page={{prevPage}}"><button>Anterior</button></a>
     {{/if }}
     {{#if hasNextPage}}
-    <a href="/api/products/realtimeproducts?page={{nextPage}}"><button>Siguiente</button></a>
+    <a href="/products/admin?page={{nextPage}}"><button>Siguiente</button></a>
     {{/if }}
     </div>
 </div>

@@ -19,7 +19,7 @@ if(form){
     }).then(json => {
         if(!json.error){
             if (json.payload.role === "admin") {
-            window.location.replace('/api/products/realTimeProducts')
+            window.location.replace('/products/admin')
         } else {
             window.location.replace('/products')
         }
