@@ -23,8 +23,9 @@ if(form){
         } else {
             window.location.replace('/products')
         }
+        } else {
+            alert("Datos incorrectos")
         }
-        
     })
     form.reset()
 })
@@ -44,7 +45,16 @@ if(signupform){
         headers: {
             'Content-Type': 'application/json'
         }
-    }).then(result => result.json()).then(json => console.log(json))
+    }).then(result => result.json()).then((json) => {
+        if(!json.error){
+            alert("Usuario creado")
+            setTimeout(() => {
+                window.location.replace('/login')
+            }, 1000)
+        } else {
+            alert("Datos mal ingresados")
+        }
+    })
     signupform.reset()
 })
 }

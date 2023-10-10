@@ -78,13 +78,6 @@ io.on(`connection`, async socket =>{
         console.log(dsadas)
         io.emit(`messageLogs`,newMessages)
     })
-
-    const cart = new CartManager()
-    socket.on(`addToCart`, async (data)=>{
-        const cid = await cart.getNewCart()
-        const putProducts = await cart.putProducts(cid,[data])
-        io.emit(`cartUpdated`,putProducts)
-    })
 })
 
 export {io}

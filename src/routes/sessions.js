@@ -1,5 +1,6 @@
 import { Router } from "express"
 import passport from "passport"
+import { usersModel } from "../models/users.js"
 
 const router = Router()
 
@@ -55,5 +56,11 @@ router.get('/githubcallback', passport.authenticate('github', {failureRedirect:'
   req.session.user = req.user
   res.redirect('/profile')
 })
+
+router.get("/current", async (req, res) => {
+  let {first_name,last_name,age,email,cart} =  req.user
+  res.send({session:{first_name,last_name,age,email,cart}})
+})
+
 
 export default router

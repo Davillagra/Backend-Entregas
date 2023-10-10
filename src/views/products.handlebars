@@ -17,7 +17,7 @@
         <p type="number" name="stock" min="0">Stock: {{this.stock}}</p>
         {{#if ../user.name}}
         <form>
-            <input type="number" min="1" max="{{this.stock}}" name="quantity">
+            <input type="number" min="0" max="{{this.stock}}" name="quantity">
             <input type="text" style="display: none;" name="_id" value="{{this._id}}"/>
             <button type="submit">Añadir al carrito</button>
             <br>

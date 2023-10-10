@@ -8,6 +8,7 @@ const userSchema = new mongoose.Schema({
     last_name: String,
     email: {
         type: String,
+        unique:true,
         validate: {
             validator: (value) => validator.isEmail(value),
             message: 'Must be a valid email'
@@ -20,7 +21,15 @@ const userSchema = new mongoose.Schema({
         default: 'user'
     },
     age: Number,
-    userName: String
+    userName: String,
+    cart: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref:"carts"
+    },
+})
+
+userSchema.pre("findOne", function () {
+    this.populate("cart")
 })
 
 export const usersModel = mongoose.model(userCollection,userSchema)
