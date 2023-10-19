@@ -1,11 +1,11 @@
 import { productModel } from "../models/products.js"
-import { connect } from "./conection.js"
+import { connect } from "../config/conection.js"
 
 const conection = connect
 
 class ProductManager {
   constructor() {}
-  getProducts = async(limit,page,sort,query) => {
+  getProds = async(limit,page,sort,query) => {
     let products
     let filter = {}
     switch (query) {

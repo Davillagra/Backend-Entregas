@@ -1,31 +1,12 @@
 import { Router } from "express"
+import { login, privateAccess, profile, publicAccess, signup } from "../controllers/views.js"
 
 const router = Router()
 
-const publicAccess = (req, res, next) => {
-    if (req.session.user) return res.redirect('/profile')
-    next()
-}
+router.get("/login",publicAccess, login)
 
-const privateAccess = (req, res, next) => {
-    if (!req.session.user) {
-        return res.redirect('/login')
-    }
-    next()
-}
+router.get("/signup",publicAccess, signup)
 
-router.get("/login",publicAccess,(req,res)=>{
-    res.render("login")
-})
-
-router.get("/signup",publicAccess,(req,res)=>{
-    res.render("signup")
-})
-
-router.get("/profile",privateAccess, (req,res)=>{
-    res.render('profile', {
-        user: req.session.user
-    })
-})
+router.get("/profile",privateAccess, profile)
 
 export default router

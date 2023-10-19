@@ -1,5 +1,5 @@
 import { cartModel } from "../models/carts.js"
-import { connect } from "./conection.js"
+import { connect } from "../config/conection.js"
 
 const conection = connect
 

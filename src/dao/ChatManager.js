@@ -1,5 +1,5 @@
 import { messagesModel } from "../models/messages.js"
-import { connect } from "./conection.js"
+import { connect } from "../config/conection.js"
 
 const conection = connect
 

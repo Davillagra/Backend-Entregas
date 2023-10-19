@@ -12,13 +12,13 @@ import chatRouter from "./routes/chat.js"
 import viewProductsRouter from "./routes/viewProducts.js"
 import viewCartsRouter from "./routes/viewCarts.js"
 import ChatManager from "./dao/ChatManager.js"
-import CartManager from "./dao/CartManager.js"
 import viewRouter  from "./routes/views.js"
 import sessionRouter from "./routes/sessions.js"
 import session from 'express-session'
 import MongoStore from "connect-mongo"
 import passport from "passport"
 import initializePassport from "./config/passport.js"
+import { options } from "./config/options.js"
 
 const productos = new ProductManager()
 
@@ -30,17 +30,17 @@ app.set(`views`,__dirname + `/views`)
 app.set(`view engine`,`handlebars`)
 app.use(express.static(__dirname + `/public`))
 
-mongoose.connect(`mongodb+srv://Zorkanoid:uEBaZmoUJldNKnBP@cluster0.etq8mtb.mongodb.net/Ecomerce`,{
+mongoose.connect(options.mongoDB.url,{
     useNewUrlParser:true,
     useUnifiedTopology:true
 })
 
 app.use(session({
     store: MongoStore.create({
-        mongoUrl: 'mongodb+srv://Zorkanoid:uEBaZmoUJldNKnBP@cluster0.etq8mtb.mongodb.net/Ecomerce',
+        mongoUrl: options.mongoDB.url,
         ttl: 3600
     }),
-    secret: "CoderSecret",
+    secret: options.server.secretSession,
     resave: false,
     saveUninitialized: false
 }))
@@ -65,7 +65,7 @@ io.on(`connection`, async socket =>{
     console.log("Nuevo socket conectado")
     socket.on('form', async (formData) => {
         await productos.updateProduct(formData._id, formData)
-        const data = await productos.getProducts()
+        const data = await productos.getProds()
         io.emit("change",{data})
     })
 
