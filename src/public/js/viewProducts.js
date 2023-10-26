@@ -17,7 +17,6 @@ const addToCart = ()=>{
                     'Content-Type': 'application/json'
                 }
             }).then(result => result.json()).then((json) => {
-                console.log(json)
                 if(json.status ==="success") {
                     Swal.fire({
                         position: 'top-end',

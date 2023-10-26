@@ -7,6 +7,8 @@ export const login = async (req, res) => {
     email: req.user.email,
     age: req.user.age,
     role: req.user.role,
+    _id: req.user._id,
+    cart: req.user.cart ?? null
   }
   return res.send({ status: "success", payload: req.session.user })
 }
@@ -39,8 +41,12 @@ export const githubcallback = async (req, res) => {
 }
 
 export const current = async (req, res) => {
-  let {first_name,last_name,age,email,cart} =  req.user
-  res.send({session:{first_name,last_name,age,email,cart}})
+  if(req.user){
+    let {first_name,last_name,age,email,cart} =  req.user
+    res.send({session:{first_name,last_name,age,email,cart}})
+  } else {
+    res.status(401).send({status:"error",message:"Must login firts"})
+  }
 }
 
 export const adminLogin = (req, res, next) => {

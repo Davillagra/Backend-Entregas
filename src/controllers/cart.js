@@ -1,30 +1,46 @@
-import CartManager from "../dao/CartManager.js"
+import { cartMethod } from "../dao/factory.js"
 import { usersModel } from "../models/users.js"
 
-const carrito = new CartManager()
-
 export const postNewCart = async (req, res) => {
-    const prodArray = req.body
-    let newCart
-    if (!req.user.cart) {
-    newCart = await carrito.getNewCart()
-    const data = await usersModel.updateOne({ _id: req.user._id },{ cart: newCart })
+  const prodArray = req.body
+  if (!req.session.user) {
+    const newCart = await cartMethod.getNewCart()
     if (newCart.message) {
       return res.status(400).send({ status: "error", message: newCart.message })
     }
+    res.status(201).send({ status: "success", message: "Cart created", id: newCart })
+  }
+  let updatedUser = await usersModel.findById(req.session.user._id)
+  if (!updatedUser.cart) {
+    const newCart = await cartMethod.getNewCart()
+    if (newCart.message) {
+      return res.status(400).send({ status: "error", message: newCart.message })
     }
-    const putProducts = await carrito.putProducts(req.user.cart, [prodArray])
-    if (!putProducts) {
-      res.send({ status: "error", message: "Cart not found" })
-    } else {
-      if (!putProducts.message) {
-        res.status(201).send({ status: "success", message: `Products added`, id:req.user.cart._id})
+    const data = await usersModel.updateOne({ _id: updatedUser._id },{ cart: newCart })
+    updatedUser = await usersModel.findById(req.session.user._id)
+    if (prodArray.quantity) {
+      const putProducts = await cartMethod.putProducts(updatedUser.cart, [prodArray])
+      console.log(putProducts)
+      if (!putProducts) {
+        return res.status(400).send({status: "error",message: "Unable to add products to the cart",})
       }
+      return res.status(201).send({status: "success",message: "Products added",id: updatedUser.cart._id,})
     }
+  }
+  if (updatedUser.cart) {
+    if (prodArray.quantity) {
+      const putProducts = await cartMethod.putProducts(updatedUser.cart, [prodArray])
+      if (!putProducts) {
+        return res.status(400).send({status: "error",message: "Unable to add products to the cart",})
+      }
+      return res.status(201).send({status: "success",message: "Products added",id: updatedUser.cart._id,})
+    }
+  }
 }
+
 export const getCart = async (req, res) => {
   const cid = req.params.cid
-  const getCartById = await carrito.getCartById(cid)
+  const getCartById = await cartMethod.getCartById(cid)
   if (getCartById) {
     return res.send({ status: "success", message: getCartById })
   } else {
@@ -34,7 +50,7 @@ export const getCart = async (req, res) => {
 export const pushProducts = async (req, res) => {
   const cid = req.params.cid
   const pid = req.params.pid
-  const push = await carrito.pushProducts(cid, pid)
+  const push = await cartMethod.pushProducts(cid, pid)
   if (!push) {
     res.status(404).send({ status: "error", message: "Cart not found" })
   } else {
@@ -48,7 +64,7 @@ export const pushProducts = async (req, res) => {
 export const removeProduct = async (req, res) => {
   const cartID = req.params.cid
   const prodID = req.params.pid
-  const deleteProd = await carrito.deleteProd(cartID, prodID)
+  const deleteProd = await cartMethod.deleteProd(cartID, prodID)
   if (deleteProd.found) {
     res.send({ status: `success`, message: deleteProd.found })
   } else {
@@ -57,7 +73,8 @@ export const removeProduct = async (req, res) => {
 }
 export const removeCart = async (req, res) => {
   const cartID = req.params.id
-  const deleteCart = await carrito.deleteCart(cartID)
+  const deleteCart = await cartMethod.deleteCart(cartID)
+  //const updatedUser = await usersModel.findOne(req.session.user._id)
   if (deleteCart.deletedCount == 1) {
     res.send({ status: `success`, message: "Deleted cart" })
   } else {
@@ -67,7 +84,7 @@ export const removeCart = async (req, res) => {
 export const putProducts = async (req, res) => {
   const cid = req.params.cid
   const prodArray = req.body
-  const putProduct = await carrito.putProducts(cid, prodArray)
+  const putProduct = await cartMethod.putProducts(cid, prodArray)
   if (!putProduct) {
     res.status(404).send({ status: "error", message: "Cart not found" })
   } else {
@@ -80,7 +97,7 @@ export const upateQuantity = async (req, res) => {
   const cid = req.params.cid
   const pid = req.params.pid
   const prodQuantity = req.body
-  const updateQuan = await carrito.updateQuantity(cid, pid, prodQuantity)
+  const updateQuan = await cartMethod.updateQuantity(cid, pid, prodQuantity)
   if (updateQuan.message || updateQuan == -1) {
     if (updateQuan == -1) {
       res.status(404).send({ status: "error", message: "Prod not found" })
@@ -93,7 +110,7 @@ export const upateQuantity = async (req, res) => {
 }
 export const removeProducts = async (req, res) => {
   const cid = req.params.cid
-  const deleteProd = await carrito.deleteProducts(cid)
+  const deleteProd = await cartMethod.deleteProducts(cid)
   if (deleteProd.modifiedCount == 1) {
     res.send({
       status: `success`,
@@ -101,5 +118,32 @@ export const removeProducts = async (req, res) => {
     })
   } else {
     res.status(404).send({ status: `error`, message: "Cart not found" })
+  }
+}
+
+export const purchase = async (req, res) => {
+  const cid = req.params.cid
+  const {email} = req.body
+  const cart = await cartMethod.getCartById(cid)
+  let available
+  let totPrice = 0
+  let unavailable = []
+  if (cart) {
+    const availability = cart.products.map(p => {
+      const isAvailable = p.product.stock > p.quantity
+      if (!isAvailable) {
+        unavailable.push(p.product.title)
+      }
+      totPrice += p.product.price*p.quantity
+      return isAvailable
+    })
+    available = availability.every(available => available)
+    if (available) {
+      res.send({totPrice});
+    } else {
+      res.status(400).send({ status: "error", message: "Some products are not available", unavailable })
+    }
+  } else {
+    return res.status(404).send({ status: "error", message: "Cart not found" })
   }
 }

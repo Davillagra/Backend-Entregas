@@ -1,14 +1,15 @@
-import ProductManager from "../dao/ProductManager.js"
+
+import {productMethod} from "../dao/factory.js"
 import {io} from "../index.js"
 
-const productos = new ProductManager()
+
 
 export const getProducts = async (req,res)=>{
-    const limit = req.query.limit || 10
-    const page = req.query.page || 1
+    const limit = req.query.limit
+    const page = req.query.page
     const query = req.query.query
-    const sort = req.query.sort || ""
-    const products = await productos.getProds(limit,page,sort,query)
+    const sort = req.query.sort
+    const products = await productMethod.getProds(limit,page,sort,query)
     res.send({
         status:"succes",
         payload:products.docs,
@@ -24,7 +25,7 @@ export const getProducts = async (req,res)=>{
 
 export const getProductById = async (req,res)=> {
     const productID = req.params.id
-    const product = await productos.getProductById(productID)
+    const product = await productMethod.getProductById(productID)
     if(product){
         res.send({status:"succes",message:product})
     } else {
@@ -34,9 +35,9 @@ export const getProductById = async (req,res)=> {
 
 export const postProduct = async (req,res)=>{
     const products = req.body
-    const addProduct = await productos.addProduct(products)
+    const addProduct = await productMethod.addProduct(products)
     if(!addProduct.message){
-        const data = await productos.getProds()
+        const data = await productMethod.getProds()
         io.emit("change", {data})
         res.status(201).send({status:"succes",message:addProduct})
     } else {
@@ -47,7 +48,7 @@ export const postProduct = async (req,res)=>{
 export const updateProduct = async (req,res)=>{
     let prodcutID = req.params.id
     let product = req.body
-    const updateProd = await productos.updateProduct(prodcutID, product)
+    const updateProd = await productMethod.updateProduct(prodcutID, product)
     console.log(updateProd)
     if(updateProd.matchedCount == 0){
         res.status(404).send({status:"error",message:"Product not found"})
@@ -55,7 +56,7 @@ export const updateProduct = async (req,res)=>{
         if(updateProd.message){
             res.status(400).send({status:"error",message:updateProd.message})
         } else {
-            const data = await productos.getProds()
+            const data = await productMethod.getProds()
             io.emit("change", {data})
             res.send({status:"succes",message:"Product updated",info:updateProd})
         }
@@ -64,9 +65,9 @@ export const updateProduct = async (req,res)=>{
 
 export const deleteProduct = async (req,res)=>{
     const productID = req.params.id
-    const deleteProduct = await productos.deleteProduct(productID)
+    const deleteProduct = await productMethod.deleteProduct(productID)
     if(!deleteProduct.message){
-        const data = await productos.getProds()
+        const data = await productMethod.getProds()
         io.emit("change", {data})
         res.send({status:"success",message:deleteProduct})
     } else {

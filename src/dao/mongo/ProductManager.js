@@ -1,17 +1,14 @@
-import { productModel } from "../models/products.js"
-import { connect } from "../config/conection.js"
+import { productModel } from "../../models/products.js"
 
-const conection = connect
-
-class ProductManager {
+export class ProductManager {
   constructor() {}
   getProds = async(limit,page,sort,query) => {
+    limit = limit || 10
+    page = page|| 1
+    sort = sort || ""
     let products
     let filter = {}
     switch (query) {
-      case "available":
-        filter.stock = { $gt: 0 }
-        break
       case "not available":
         filter.stock = { $eq: 0}
         break
@@ -21,6 +18,7 @@ class ProductManager {
         filter.category = query
         break  
       default:
+        filter.stock = { $gt: 0 }
           break
     }
     if(sort){

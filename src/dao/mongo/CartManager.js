@@ -1,9 +1,6 @@
-import { cartModel } from "../models/carts.js"
-import { connect } from "../config/conection.js"
+import { cartModel } from "../../models/carts.js"
 
-const conection = connect
-
-class CartManager {
+export class CartManager {
     constructor() {}
       getNewCart = async()=>{
         const newCart = new cartModel()
@@ -18,23 +15,49 @@ class CartManager {
           const cart = await cartModel.findOne({_id:id})
           return cart
       }
-      pushProducts = async (cid,pid)=>{
+      // pushProducts = async (cid,pid)=>{
+      //   try {
+      //     const cart = await this.getCartById(cid)
+      //     if(cart) {
+      //       const index = cart.products.findIndex((p) => p.product._id.toString() === pid)
+      //       if (index !== -1) {
+      //         cart.products[index].quantity += 1
+      //     } else {
+      //         cart.products.push({ product:pid, quantity: 1 })
+      //     }
+      //     }
+      //     await cart.save()
+      //     return cart
+      //   } catch (error) {
+      //     return error
+      //   }
+      // }
+      pushProducts = async (cid, pid) => {
         try {
-          const cart = await this.getCartById(cid)
-          if(cart) {
-            const index = cart.products.findIndex((p) => p.product._id.toString() === pid)
-            if (index !== -1) {
-              cart.products[index].quantity += 1
-          } else {
-              cart.products.push({ product:pid, quantity: 1 })
+          const updatedCart = await cartModel.findOneAndUpdate(
+            { _id: cid, 'products.product': pid },
+            {
+              $inc: { 'products.$.quantity': 1 },
+            },
+            { new: true }
+          )
+          if (!updatedCart) {
+            const newProduct = { product: pid, quantity: 1 }
+            const cart = await cartModel.findByIdAndUpdate(
+              cid,
+              {
+                $push: { products: newProduct },
+              },
+              { new: true }
+            );
+      
+            return cart;
           }
-          await cart.save()
-          }
-          return cart
+          return updatedCart
         } catch (error) {
-          return error
+          return error;
         }
-      }
+      };
       deleteProd = async (cid,pid) => {
         try {
           let responce = {}

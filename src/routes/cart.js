@@ -1,5 +1,5 @@
 import { Router } from "express"
-import { getCart, postNewCart, pushProducts, putProducts, removeCart, removeProduct, removeProducts, upateQuantity } from "../controllers/cart.js"
+import { getCart, postNewCart, purchase, pushProducts, putProducts, removeCart, removeProduct, removeProducts, upateQuantity } from "../controllers/cart.js"
 
 const router = Router()
 
@@ -11,5 +11,6 @@ router.delete(`/:id`, removeCart)
 router.put("/:cid", putProducts)
 router.put("/:cid/products/:pid", upateQuantity)
 router.delete(`/:cid/products`, removeProducts)
+router.put(`/:cid/purchase`, purchase)
 
 export default router

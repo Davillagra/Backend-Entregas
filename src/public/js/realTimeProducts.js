@@ -43,7 +43,7 @@ const updateProducts = async (data) => {
     try {
         const productosDiv = document.getElementById("productos")
         productosDiv.innerHTML = ""
-        data.forEach(producto => {
+        data.docs.forEach(producto => {
             const productDiv = document.createElement("div")
             productDiv.innerHTML = `
             <form id="${producto._id}">

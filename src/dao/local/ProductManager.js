@@ -1,14 +1,15 @@
 import fs from "fs"
 
-class LocalProductManager {
+export class ProductManagerLocal {
   constructor() {
     this.path = "./src/data/products.json"
     this.path2 = "./src/data/usedIds.json"
   }
-  getProducts = async() => {
+  getProds = async() => {
     if(fs.existsSync(this.path)) {
+      const products = {}
       const data = await fs.promises.readFile(this.path,"utf-8")
-      const products = JSON.parse(data)
+      products.docs = JSON.parse(data)
       return products
     } else {
       await fs.promises.writeFile(this.path,"[]")
@@ -84,4 +85,4 @@ class LocalProductManager {
   }
 }
 
-export default LocalProductManager
+export default ProductManagerLocal

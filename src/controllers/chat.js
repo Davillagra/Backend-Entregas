@@ -1,4 +1,4 @@
-import ChatManager from "../dao/ChatManager.js"
+import ChatManager from "../dao/mongo/ChatManager.js"
 
 const chats = new ChatManager()
 

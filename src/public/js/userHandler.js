@@ -59,9 +59,9 @@ if(signupform){
 })
 }
 
-const logout = document.getElementById("logout")
-if(logout){
-    logout.addEventListener("click", (event)=>{
+const buy = document.getElementById("logout")
+if(buy){
+    buy.addEventListener("click", (event)=>{
     event.preventDefault()
     fetch('api/sessions/logout', {
         method: 'POST',

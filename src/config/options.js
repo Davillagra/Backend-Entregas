@@ -1,18 +1,17 @@
 import dotenv from "dotenv"
 dotenv.config()
-
-
 export const options = {
     mongoDB:{
         url:process.env.MONGO_URL
     },
     server:{
         port:process.env.PORT,
-        secretSession: process.env.SECRET_SESSION
+        secretSession: process.env.SECRET_SESSION,
+        persistence: process.env.PERSISTENCE
     },
     user: {
-        adminPass:process.env.ADMIN_PASS,
-        adminEmail:process.env.ADMIN_EMAIL
+        adminPass: process.env.ADMIN_PASS,
+        adminEmail: process.env.ADMIN_EMAIL
     },
     github:{
         id:process.env.GITHUB_ID,

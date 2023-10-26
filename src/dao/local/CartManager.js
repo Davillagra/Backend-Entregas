@@ -1,6 +1,6 @@
 import fs from "fs"
 
-class LocalCartManager {
+export class CartManagerLocal {
     constructor() {
         this.path = "./src/data/cart.json"
         this.path2 = "./src/data/cartIDs.json"
@@ -79,4 +79,4 @@ class LocalCartManager {
       }
 }
 
-export default LocalCartManager
+export default CartManagerLocal

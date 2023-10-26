@@ -11,6 +11,21 @@ export  const privateAccess = (req, res, next) => {
     next()
 }
 
+export  const adminAccess = (req, res, next) => {
+    if (req.session.user.role === "admin") {
+        next()
+    } else {
+        return res.redirect('/products')
+    }
+}
+export  const userAccess = (req, res, next) => {
+    if (req.session.user.role === "user") {
+        next()
+    } else {
+        return res.redirect('/profile')
+    }  
+}
+
 export const login = (req,res)=>{
     res.render("login")
 }

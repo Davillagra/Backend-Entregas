@@ -19,6 +19,9 @@ const messageSchema = new mongoose.Schema({
     createAt: {
         type: Date,
         default: Date.now 
+    },
+    userName: {
+        type: String,
     }
 })
 

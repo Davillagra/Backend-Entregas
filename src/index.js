@@ -4,14 +4,11 @@ import cartsRouter from "./routes/cart.js"
 import handlebars from "express-handlebars"
 import __dirname from "./utils.js"
 import { Server } from "socket.io"
-import ProductManager from "./dao/ProductManager.js"
 import mongoose from "mongoose"
-import localProductsRouter from "./routes/productLocal.js"
-import localCartsRouter from "./routes/cartLocal.js"
 import chatRouter from "./routes/chat.js"
 import viewProductsRouter from "./routes/viewProducts.js"
 import viewCartsRouter from "./routes/viewCarts.js"
-import ChatManager from "./dao/ChatManager.js"
+import ChatManager from "./dao/mongo/ChatManager.js"
 import viewRouter  from "./routes/views.js"
 import sessionRouter from "./routes/sessions.js"
 import session from 'express-session'
@@ -19,8 +16,7 @@ import MongoStore from "connect-mongo"
 import passport from "passport"
 import initializePassport from "./config/passport.js"
 import { options } from "./config/options.js"
-
-const productos = new ProductManager()
+import { productMethod } from "./dao/factory.js"
 
 const app = express()
 app.use(express.json())
@@ -50,8 +46,6 @@ app.use(passport.session())
 
 app.use("/api/products",productsRouter)
 app.use("/api/cart",cartsRouter)
-app.use("/api/productsLocal",localProductsRouter)
-app.use("/api/cartLocal",localCartsRouter)
 app.use("/api/chat",chatRouter)
 app.use("/products",viewProductsRouter)
 app.use("/carts",viewCartsRouter)
@@ -64,19 +58,22 @@ const io = new Server(server)
 io.on(`connection`, async socket =>{
     console.log("Nuevo socket conectado")
     socket.on('form', async (formData) => {
-        await productos.updateProduct(formData._id, formData)
-        const data = await productos.getProds()
+        await productMethod.updateProduct(formData._id, formData)
+        const data = await productMethod.getProds()
         io.emit("change",{data})
     })
-
     const chats = new ChatManager()
     const messages = await chats.getMessages()
     socket.emit(`messageLogs`,messages)
-    socket.on(`message`, async data=>{
+    socket.on(`message`, async data =>{
         const dsadas = await chats.pushMessage(data)
+        let userName = data.userName
         const newMessages = await chats.getMessages()
-        console.log(dsadas)
+        newMessages.userName = userName
         io.emit(`messageLogs`,newMessages)
+    })
+    socket.on(`buy`, async data => {
+        console.log(data)
     })
 })
 
