@@ -1,5 +1,6 @@
-import { cartMethod } from "../dao/factory.js"
+import { cartMethod, ticketMethod,productMethod } from "../dao/factory.js"
 import { usersModel } from "../models/users.js"
+import { updateProduct } from "./product.js"
 
 export const postNewCart = async (req, res) => {
   const prodArray = req.body
@@ -20,7 +21,6 @@ export const postNewCart = async (req, res) => {
     updatedUser = await usersModel.findById(req.session.user._id)
     if (prodArray.quantity) {
       const putProducts = await cartMethod.putProducts(updatedUser.cart, [prodArray])
-      console.log(putProducts)
       if (!putProducts) {
         return res.status(400).send({status: "error",message: "Unable to add products to the cart",})
       }
@@ -74,7 +74,6 @@ export const removeProduct = async (req, res) => {
 export const removeCart = async (req, res) => {
   const cartID = req.params.id
   const deleteCart = await cartMethod.deleteCart(cartID)
-  //const updatedUser = await usersModel.findOne(req.session.user._id)
   if (deleteCart.deletedCount == 1) {
     res.send({ status: `success`, message: "Deleted cart" })
   } else {
@@ -125,25 +124,32 @@ export const purchase = async (req, res) => {
   const cid = req.params.cid
   const {email} = req.body
   const cart = await cartMethod.getCartById(cid)
-  let available
+  if (!cart) {
+    return res.status(404).send({ status: "error", message: "Cart not found" });
+  }
+  let available = []
   let totPrice = 0
   let unavailable = []
-  if (cart) {
+  let prodInfo = {}
+  if (!cart.message) {
     const availability = cart.products.map(p => {
       const isAvailable = p.product.stock > p.quantity
+      prodInfo = {title:p.product.title,id:p.product._id,quantity:p.quantity,stock:p.product.stock}
       if (!isAvailable) {
-        unavailable.push(p.product.title)
+        unavailable.push(prodInfo)
+      } else {
+        available.push(prodInfo)
+        totPrice += p.product.price*p.quantity
       }
-      totPrice += p.product.price*p.quantity
       return isAvailable
     })
-    available = availability.every(available => available)
-    if (available) {
-      res.send({totPrice});
+    if (available.length === cart.products.length) {
+      let ticket = await ticketMethod.newTicket(totPrice,email)
+      available.forEach((p)=>{productMethod.updateProduct(p.id,{stock:p.stock-p.quantity})})
+      await cartMethod.deleteCart(cid)
+      res.send({status: "success", message: "Compra exitosa", ticket:ticket})
     } else {
       res.status(400).send({ status: "error", message: "Some products are not available", unavailable })
     }
-  } else {
-    return res.status(404).send({ status: "error", message: "Cart not found" })
   }
 }

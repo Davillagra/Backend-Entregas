@@ -8,9 +8,24 @@
         <p>$ {{this.price}}</p>
         <p>Código: {{this.code}}</p>
         <p>Cantidad: {{this.quantity}}</p>
+        <form id="productos">
+            <input type="number" min="1" max="{{this.quantity}}" name="quantity">
+            <input type="hidden" name="_id" value="{{this._id}}"/>
+            <input type="hidden" name="cid" value="{{this.cid}}"/>
+            <input type="hidden" name="oldQuantity" value="{{this.quantity}}"/>
+            <button type="submit">Eliminar del carrito</button>
+            <br>
+        </form>
     {{/each}}
+
+    {{#if products}}
     <button id="buy">Comfirmar compra</button>
+    {{else}}
+    <h2>Carrito vacio :c</h2>
+    {{/if}}
+    <a href="/products">Ir a productos</a>
     </div>
 </div>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script src="/socket.io/socket.io.js"></script>
 <script src="/js/cart.js"></script>

@@ -2,8 +2,6 @@
 import {productMethod} from "../dao/factory.js"
 import {io} from "../index.js"
 
-
-
 export const getProducts = async (req,res)=>{
     const limit = req.query.limit
     const page = req.query.page
@@ -49,7 +47,6 @@ export const updateProduct = async (req,res)=>{
     let prodcutID = req.params.id
     let product = req.body
     const updateProd = await productMethod.updateProduct(prodcutID, product)
-    console.log(updateProd)
     if(updateProd.matchedCount == 0){
         res.status(404).send({status:"error",message:"Product not found"})
     } else {

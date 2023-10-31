@@ -14,6 +14,7 @@ switch(options.server.persistence){
     break
 }
 export {productMethod}
+
 let cartMethod
 switch(options.server.persistence){
     case "MONGO":
@@ -27,3 +28,15 @@ switch(options.server.persistence){
     break
 }
 export {cartMethod}
+
+let ticketMethod
+switch(options.server.persistence){
+    case "MONGO":
+        const connection = connect
+        const {TicketManager} = await import("./mongo/TicketManager.js")
+        ticketMethod = new TicketManager()
+    break
+    case "LOCAL":
+    break
+}
+export {ticketMethod}

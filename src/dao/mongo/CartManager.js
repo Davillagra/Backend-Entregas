@@ -12,8 +12,12 @@ export class CartManager {
         }
       }
       getCartById = async (id)=>{
+        try {
           const cart = await cartModel.findOne({_id:id})
           return cart
+        } catch (error) {
+          return error
+        }
       }
       // pushProducts = async (cid,pid)=>{
       //   try {

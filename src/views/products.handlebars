@@ -6,6 +6,7 @@
     <Button><a href="/profile">Ir al perfil</a></Button>
     {{#if hasCart}}
     <Button><a href="/carts/{{hasCart}}">Ir al carrito</a></Button>
+    <Button><a href="/api/chat">Ir chat</a></Button>
     {{/if}}
     {{else}}
     <h2>Inicie la sesion para añadir productos al carrito</h2>
@@ -21,7 +22,7 @@
         <p type="number" name="stock" min="0">Stock: {{this.stock}}</p>
         {{#if ../user.name}}
         <form>
-            <input type="number" min="0" max="{{this.stock}}" name="quantity">
+            <input type="number" min="1" max="{{this.stock}}" name="quantity">
             <input type="text" style="display: none;" name="_id" value="{{this._id}}"/>
             <button type="submit">Añadir al carrito</button>
             <br>

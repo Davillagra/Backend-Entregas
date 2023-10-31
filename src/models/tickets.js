@@ -1,11 +1,13 @@
 import mongoose from "mongoose"
 const ticketCollection = `tickets`
+import { v4 as uuidv4 } from 'uuid'
+import validator from 'validator'
 
 const ticketSchema = new mongoose.Schema({
     code: {
         type: String,
         unique: true,
-        default: shortid.generate,
+        default: uuidv4,
       },
     purchase_datetime:{
         type: Date,
