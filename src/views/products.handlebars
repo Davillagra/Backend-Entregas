@@ -1,12 +1,15 @@
+<head><link rel="stylesheet" type="text/css" href="/css/products.css"></head>
 <div>
   <h1>Productos</h1>
   <div>
     {{#if user.name}}
     <h2>Bienvenido {{user.name}}</h2>
+    <div class="navigation">
     <Button><a href="/profile">Ir al perfil</a></Button>
     {{#if hasCart}}
     <Button><a href="/carts/{{hasCart}}">Ir al carrito</a></Button>
     <Button><a href="/api/chat">Ir chat</a></Button>
+    </div>
     {{/if}}
     {{else}}
     <h2>Inicie la sesion para añadir productos al carrito</h2>
@@ -14,7 +17,7 @@
     {{/if}}
     <div id="productos">
       {{#each products}}
-        <div>
+        <div class="prodCard">
         <p type="text" name="tittle">Producto: {{this.title}}</p>
         <p type="text" name="description">Descripccion: {{this.description}}</p>
         <p type="number" name="price" min="0">Precio: ${{this.price}}</p>
@@ -29,15 +32,16 @@
         </form>
         {{/if}}
         </div>
-        <br>
       {{/each}}
+    </div>
+    <div class="pagination">
       {{#if hasPrevPage}}
         <a href="/products?page={{prevPage}}"><button>Anterior</button></a>
       {{/if}}
       {{#if hasNextPage}}
         <a href="/products?page={{nextPage}}"><button>Siguiente</button></a>
       {{/if}}
-    </div>
+  </div>
   </div>
 
 </div>

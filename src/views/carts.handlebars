@@ -1,8 +1,11 @@
-<div>
+<head><link rel="stylesheet" type="text/css" href="/css/carts.css"></head>
+<div class="mainDiv">
     <div id="carts">
         <h1>Carrito</h1>
         <p>Productos:</p>
-    {{#each products}}
+        <div class="cartCards">
+{{#each products}}
+    <div class="cartCard">
         <p>{{this.title}}</p>
         <p>Descripcion: {{this.description}}</p>
         <p>$ {{this.price}}</p>
@@ -16,14 +19,17 @@
             <button type="submit">Eliminar del carrito</button>
             <br>
         </form>
+        </div>
     {{/each}}
+        </div>
+    
 
     {{#if products}}
     <button id="buy">Comfirmar compra</button>
     {{else}}
     <h2>Carrito vacio :c</h2>
     {{/if}}
-    <a href="/products">Ir a productos</a>
+    <button><a href="/products">Ir a productos</a></button>
     </div>
 </div>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>

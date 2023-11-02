@@ -5,6 +5,8 @@ const router = Router()
 
 router.get("/login",publicAccess, login)
 
+router.get("/",publicAccess, login) // temporal
+
 router.get("/signup",publicAccess, signup)
 
 router.get("/profile",privateAccess, profile)

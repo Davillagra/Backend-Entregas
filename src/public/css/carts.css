@@ -1,0 +1,67 @@
+body {
+  justify-content: center;
+  align-items: center;
+  margin: 0;
+}
+.mainDiv {
+  align-items: center;
+  padding: 5%;
+  margin: 5%;
+}
+#carts h1 {
+  font-size: 24px;
+  margin: 0;
+}
+#carts p {
+  margin: 5px 0;
+}
+#productos {
+  display: flex;
+  flex-direction: column;
+}
+#productos input[type="number"] {
+  width: 50px;
+  margin: 5px 0;
+}
+
+#productos button {
+  margin: 5px 0;
+  background-color: #3498db;
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  cursor: pointer;
+}
+#buy {
+  background-color: #27ae60;
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  cursor: pointer;
+  margin: 10px 0;
+}
+h2 {
+  font-size: 16px;
+  margin: 10px 0;
+}
+a {
+  text-decoration: none;
+  color: white;
+  margin: 10px 0;
+}
+button {
+  margin: 5px 0;
+  background-color: #3498db;
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  cursor: pointer;
+}
+.cartCards{
+    justify-content: space-around;
+    flex-wrap: wrap;
+    display: flex;
+}
+.cartCard{
+    width: 20%;
+}

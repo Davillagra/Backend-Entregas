@@ -1,14 +1,17 @@
+<head><link rel="stylesheet" type="text/css" href="/css/login.css"></head>
 <h1>Login</h1>
 <form id="loginForm">
     <label>Email</label>
-    <input name="email" type="email">
+    <input class="input-container" name="email" type="email">
     <br>
     <label>Contraseña</label>
-    <input name="password" type="password">
+    <input class="input-container" name="password" type="password">
     <br>
+    <button type="submit">Ingresar</button>
+    <button><a href="/signup">No estas registrado?</a></button>
     <button><a href="/api/sessions/github"> Entrar con GitHub</a></button>
     <br>
-    <button type="submit">Ingresar</button><button><a href="/signup">No estas registrado?</a></button>
+    
 </form>
 
 <script src="/js/userHandler.js"></script>

@@ -40,6 +40,7 @@ app.use(session({
     resave: false,
     saveUninitialized: false
 }))
+app.use('/public', express.static('public'));
 initializePassport()
 app.use(passport.initialize())
 app.use(passport.session())
@@ -51,7 +52,6 @@ app.use("/products",viewProductsRouter)
 app.use("/carts",viewCartsRouter)
 app.use(viewRouter)
 app.use("/api/sessions",sessionRouter)
-
 
 const server = app.listen(8080,()=>{console.log(`Servidor en linea en el puerto 8080`)})
 const io = new Server(server)

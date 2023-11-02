@@ -1,15 +1,21 @@
+<head><link rel="stylesheet" type="text/css" href="/css/products.css"></head>
 <div>
     <h1>Productos con Websockets</h1>
-    <div id="productos">
+    <div>
     {{#if user.name}}
-    <h2>Bienvenido {{user.name}}</h2><Button><a href="/profile">Ir al perfil</a></Button>
+    <h2>Bienvenido {{user.name}}</h2>
+    <div class="navigation">
+    <Button><a href="/profile">Ir al perfil</a></Button>
+    </div>
     {{else}}
+    <div class="navigation">
     <h2>Inicie la sesion para añadir productos al carrito</h2>
     <button><a href="/login">Iniciar</a></button>
+    </div>
     {{/if}}
-    {{#each products}}
-    <div>
-        <form id="{{this._id}}">
+    <div id="productos">
+    {{#each products}} 
+        <form class="prodCard" id="{{this._id}}">
             <input type="text" name="tittle">Producto: {{this.title}}</input>
             <br>
             <input type="text" name="description">Descripccion: {{this.description}}</input>
@@ -23,15 +29,17 @@
             <button type="submit">Enviar</button>
             <br>
         </form>
-    </div>
     {{/each}}
+    </div>
+    <div class="pagination">
     {{#if hasPrevPage}}
     <a href="/products/admin?page={{prevPage}}"><button>Anterior</button></a>
     {{/if }}
     {{#if hasNextPage}}
     <a href="/products/admin?page={{nextPage}}"><button>Siguiente</button></a>
     {{/if }}
-    </div>
+</div>
+</div>
 </div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.js"></script>
 <script type="module" src="/js/realTimeProducts.js"></script>
