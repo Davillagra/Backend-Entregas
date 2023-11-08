@@ -10,13 +10,13 @@ export class ProductManagerLocal {
       const products = {}
       const data = await fs.promises.readFile(this.path,"utf-8")
       products.docs = JSON.parse(data)
-      return products
+      return products.docs
     } else {
       await fs.promises.writeFile(this.path,"[]")
     }
   }
   addProduct = async (product) => {
-    const products = await this.getProducts()
+    const products = await this.getProds()
     let actualId
     if(fs.existsSync(this.path2)) {
       const idData = await fs.promises.readFile(this.path2,"utf-8")

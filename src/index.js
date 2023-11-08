@@ -17,6 +17,7 @@ import passport from "passport"
 import initializePassport from "./config/passport.js"
 import { options } from "./config/options.js"
 import { productMethod } from "./dao/factory.js"
+import mockingRouter from "./routes/mockingProducts.js"
 
 const app = express()
 app.use(express.json())
@@ -52,6 +53,7 @@ app.use("/products",viewProductsRouter)
 app.use("/carts",viewCartsRouter)
 app.use(viewRouter)
 app.use("/api/sessions",sessionRouter)
+app.use("/mockingproducts",mockingRouter)
 
 const server = app.listen(8080,()=>{console.log(`Servidor en linea en el puerto 8080`)})
 const io = new Server(server)

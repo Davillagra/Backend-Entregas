@@ -22,7 +22,6 @@ export const signup = async (req, res) => {
 }
 
 export const failSignup = async (req, res) => {
-  console.log("Failed strategy")
   res.send({ error: "Failed" })
 }
 
@@ -46,6 +45,16 @@ export const current = async (req, res) => {
     res.send({session:{first_name,last_name,age,email,cart}})
   } else {
     res.status(401).send({status:"error",message:"Must login firts"})
+  }
+}
+
+export const updateSession = async (req,res)=> {
+  console.log(req.user,req.session.user)
+  if(req.user){
+    req.session.user = req.user
+    res.send({status:"success",message:"User updated",data:req.session.user})
+  } else {
+    res.status(401).send({status:"error",message:"Cannot update"})
   }
 }
 

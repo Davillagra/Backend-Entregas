@@ -1,6 +1,6 @@
+import { transport } from "../config/trasnport.js"
 import { cartMethod, ticketMethod,productMethod } from "../dao/factory.js"
 import { usersModel } from "../models/users.js"
-import { updateProduct } from "./product.js"
 
 export const postNewCart = async (req, res) => {
   const prodArray = req.body
@@ -11,6 +11,7 @@ export const postNewCart = async (req, res) => {
     }
     res.status(201).send({ status: "success", message: "Cart created", id: newCart })
   }
+
   let updatedUser = await usersModel.findById(req.session.user._id)
   if (!updatedUser.cart) {
     const newCart = await cartMethod.getNewCart()
@@ -24,6 +25,7 @@ export const postNewCart = async (req, res) => {
       if (!putProducts) {
         return res.status(400).send({status: "error",message: "Unable to add products to the cart",})
       }
+      req.session.user.cart = updatedUser.cart
       return res.status(201).send({status: "success",message: "Products added",id: updatedUser.cart._id,})
     }
   }
@@ -33,6 +35,7 @@ export const postNewCart = async (req, res) => {
       if (!putProducts) {
         return res.status(400).send({status: "error",message: "Unable to add products to the cart",})
       }
+      req.session.user.cart = updatedUser.cart
       return res.status(201).send({status: "success",message: "Products added",id: updatedUser.cart._id,})
     }
   }
@@ -146,6 +149,17 @@ export const purchase = async (req, res) => {
     if (available.length === cart.products.length) {
       let ticket = await ticketMethod.newTicket(totPrice,email)
       available.forEach((p)=>{productMethod.updateProduct(p.id,{stock:p.stock-p.quantity})})
+      let result = transport.sendMail({
+        from:`Coder Tickets <zorkanoid@gmail.com>`,
+        to:email,
+        subject:`Comprobante de ticket`,
+        html:`
+        <div>
+            <h1>Numero de ticket: ${ticket.code} </h1>
+        </div>
+        `,
+        attachments:[]
+    })
       await cartMethod.deleteCart(cid)
       res.send({status: "success", message: "Compra exitosa", ticket:ticket})
     } else {

@@ -20,5 +20,9 @@ export const options = {
     },
     bcrypt:{
         salt:process.env.BCRYPT_SALT
+    },
+    transport:{
+        mail:process.env.MAIL,
+        pass:process.env.MAIL_PASS
     }
 }

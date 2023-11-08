@@ -1,4 +1,3 @@
-
 import {productMethod} from "../dao/factory.js"
 import {io} from "../index.js"
 

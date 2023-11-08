@@ -25,15 +25,8 @@ const addToCart = ()=>{
                         showConfirmButton: true,
                         toast: true,
                         html: `<a href="/carts/${json.id}">Ir</a>`
-                      })  
-                } else {
-                    Swal.fire({
-                        position: 'top-end',
-                        icon: 'error',
-                        title: `No se pudo añadir`,
-                        showConfirmButton: true,
-                        toast: true,
-                      })
+                    })
+                    window.location.reload()
                 }
             })
             } else {

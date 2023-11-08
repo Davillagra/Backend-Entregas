@@ -4,11 +4,15 @@
   <div>
     {{#if user.name}}
     <h2>Bienvenido {{user.name}}</h2>
-    <div class="navigation">
-    <Button><a href="/profile">Ir al perfil</a></Button>
     {{#if hasCart}}
-    <Button><a href="/carts/{{hasCart}}">Ir al carrito</a></Button>
-    <Button><a href="/api/chat">Ir chat</a></Button>
+    <div class="navigation">
+      <Button><a href="/profile">Ir al perfil</a></Button>
+      <Button><a href="/carts/{{hasCart}}">Ir al carrito</a></Button>
+      <Button><a href="/api/chat">Ir chat</a></Button>
+    </div>
+    {{else}}
+    <div class="navigation">
+      <Button><a href="/profile">Ir al perfil</a></Button>
     </div>
     {{/if}}
     {{else}}
