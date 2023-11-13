@@ -1,0 +1,53 @@
+error: Cast to ObjectId failed for value "6504b7599b7d3d94cce0699" (type string) at path "_id" for model "products"
+error: Cast to Number failed for value "asdsa" (type string) at path "price"
+error: undefined
+error: No product found for id: 6504b7599b7d3d94cce06993
+error: null
+error: null
+error: No cart found for id: 653fd5c654c36a84e4527aa2
+error: Cast to ObjectId failed for value "6504b7599b7d3d94cce0699" (type string) at path "product" for model "carts"
+error: Cast to ObjectId failed for value "65524a78a6887076d1c27fd" (type string) at path "_id" for model "carts"
+error: Cast to ObjectId failed for value "65524a78a6887076d1c27fd" (type string) at path "_id" for model "carts"
+error: No cart found for id: 65524a78a6887076d1c27fd9
+error: No cart found for id: 65524a78a6887076d1c27fd9
+error: No cart found for id: 65524a78a6887076d1c27fd9
+error: Cart not found for id:653fefc710ebcaf32283cd63
+error: Cart not found for id:653fefc710ebcaf32283cd63
+error: [object Object]
+error: Not found product for id: 6504b7599b7d3d94cce06997
+error: No cart found for id: 65524a78a6887076d1c27fdb
+error: No cart found for id: 65524a78a6887076d1c27fdb
+error: Cart not found for id:65524a78a6887076d1c27fdb
+error: undefined
+error: No product found for id:6504b7599b7d3d94cce06997
+error: No cart found for id: 65524a78a6887076d1c27fd
+error: No cart found for id: 653aa0294373d0d66774c8b
+error: No cart found for id: 653aa0294373d0d66774c8b
+error: No cart found for id: 65524eb3e0eada23c1754141
+error: No product found for id: 6504b7599b7d3d94cce0699
+error: No product found for id: 6504b7599b7d3d94cce06998
+error: Cast to ObjectId failed for value "65035016e1f7627b2fd0085" (type string) at path "_id" for model "carts"
+error: No cart found for id: 653fd5c654c36a84e4527aa2
+info: Must login firts
+error: Failed login
+error: No cart found for id: 654911e29de69420ab4f24
+error: No cart found for id: 650b4b053745a4cbddf9613c
+
+info: Cast to ObjectId failed for value "650b4b053745a4cbddf9613" (type string) at path "_id" for model "carts"
+info: Cast to ObjectId failed for value "650b4b053745a4cbddf9613" (type string) at path "_id" for model "carts"
+info: Cast to ObjectId failed for value "654911e29de69420ab4f247" (type string) at path "_id" for model "carts"
+error: Cast to ObjectId failed for value "realtimeproducts" (type string) at path "_id" for model "products"
+info: Admin endpoint
+fatal: Fatal
+error: Error
+warning: Warning
+info: Info
+fatal: Fatal
+error: Error
+warning: Warning
+info: Info
+fatal: Fatal
+error: Error
+warning: Warning
+info: Info
+debug: Debug

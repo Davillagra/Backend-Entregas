@@ -61,7 +61,7 @@ export class CartManager {
         } catch (error) {
           return error;
         }
-      };
+      }
       deleteProd = async (cid,pid) => {
         try {
           let responce = {}
@@ -71,7 +71,7 @@ export class CartManager {
           } else {
             const index = cart.products.findIndex((p) => p.product._id.toString() === pid)
           if(index == -1){
-            responce = {notFound:`Product: ${pid} not fund`}
+            responce = `Not found product for id: ${pid}`
             return responce
           } else {
             cart.products.splice(index, 1)

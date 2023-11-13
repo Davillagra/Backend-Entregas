@@ -2,7 +2,7 @@ import express from "express"
 import productsRouter from "./routes/product.js"
 import cartsRouter from "./routes/cart.js"
 import handlebars from "express-handlebars"
-import __dirname from "./utils.js"
+import __dirname, { addLogger } from "./utils.js"
 import { Server } from "socket.io"
 import mongoose from "mongoose"
 import chatRouter from "./routes/chat.js"
@@ -18,6 +18,7 @@ import initializePassport from "./config/passport.js"
 import { options } from "./config/options.js"
 import { productMethod } from "./dao/factory.js"
 import mockingRouter from "./routes/mockingProducts.js"
+import loggerTestRouter from "./routes/loggerTest.js"
 
 const app = express()
 app.use(express.json())
@@ -26,6 +27,7 @@ app.engine(`handlebars`, handlebars.engine())
 app.set(`views`,__dirname + `/views`)
 app.set(`view engine`,`handlebars`)
 app.use(express.static(__dirname + `/public`))
+app.use(addLogger)
 
 mongoose.connect(options.mongoDB.url,{
     useNewUrlParser:true,
@@ -54,6 +56,7 @@ app.use("/carts",viewCartsRouter)
 app.use(viewRouter)
 app.use("/api/sessions",sessionRouter)
 app.use("/mockingproducts",mockingRouter)
+app.use("/loggertest",loggerTestRouter)
 
 const server = app.listen(8080,()=>{console.log(`Servidor en linea en el puerto 8080`)})
 const io = new Server(server)

@@ -7,15 +7,16 @@ export const postNewCart = async (req, res) => {
   if (!req.session.user) {
     const newCart = await cartMethod.getNewCart()
     if (newCart.message) {
+      req.logger.error(newCart.message)
       return res.status(400).send({ status: "error", message: newCart.message })
     }
-    res.status(201).send({ status: "success", message: "Cart created", id: newCart })
+    return res.status(201).send({ status: "success", message: "Cart created", id: newCart })
   }
-
   let updatedUser = await usersModel.findById(req.session.user._id)
   if (!updatedUser.cart) {
     const newCart = await cartMethod.getNewCart()
     if (newCart.message) {
+      req.logger.error(newCart.message)
       return res.status(400).send({ status: "error", message: newCart.message })
     }
     const data = await usersModel.updateOne({ _id: updatedUser._id },{ cart: newCart })
@@ -23,6 +24,7 @@ export const postNewCart = async (req, res) => {
     if (prodArray.quantity) {
       const putProducts = await cartMethod.putProducts(updatedUser.cart, [prodArray])
       if (!putProducts) {
+        req.logger.error("Unable to add products to the cart")
         return res.status(400).send({status: "error",message: "Unable to add products to the cart",})
       }
       req.session.user.cart = updatedUser.cart
@@ -33,6 +35,7 @@ export const postNewCart = async (req, res) => {
     if (prodArray.quantity) {
       const putProducts = await cartMethod.putProducts(updatedUser.cart, [prodArray])
       if (!putProducts) {
+        req.logger.error("Unable to add products to the cart")
         return res.status(400).send({status: "error",message: "Unable to add products to the cart",})
       }
       req.session.user.cart = updatedUser.cart
@@ -44,10 +47,11 @@ export const postNewCart = async (req, res) => {
 export const getCart = async (req, res) => {
   const cid = req.params.cid
   const getCartById = await cartMethod.getCartById(cid)
-  if (getCartById) {
+  if (!getCartById.message) {
     return res.send({ status: "success", message: getCartById })
   } else {
-    return res.status(404).send({ status: "error", message: "Cart not found" })
+    req.logger.error(`No cart found for id: ${cid}`)
+    return res.status(404).send({ status: "error", message: `No cart found for id: ${cid}` })
   }
 }
 export const pushProducts = async (req, res) => {
@@ -55,11 +59,13 @@ export const pushProducts = async (req, res) => {
   const pid = req.params.pid
   const push = await cartMethod.pushProducts(cid, pid)
   if (!push) {
-    res.status(404).send({ status: "error", message: "Cart not found" })
+    req.logger.error(`No cart found for id: ${cid}`)
+    res.status(404).send({ status: "error", message: `No cart found for id: ${cid}` })
   } else {
     if (!push.message) {
       res.status(201).send({ status: "success", message: `Product added` })
     } else {
+      req.logger.error(push.message)
       res.status(404).send({ status: "error", message: push.message })
     }
   }
@@ -68,19 +74,25 @@ export const removeProduct = async (req, res) => {
   const cartID = req.params.cid
   const prodID = req.params.pid
   const deleteProd = await cartMethod.deleteProd(cartID, prodID)
+  if(!deleteProd){
+    req.logger.error(`Cart not found for id:${cartID}`)
+    return res.status(404).send({ status: `error`, message: `Cart not found for id:${cartID}` })
+  }
   if (deleteProd.found) {
     res.send({ status: `success`, message: deleteProd.found })
   } else {
-    res.status(404).send({ status: `error`, message: deleteProd })
+    req.logger.error(`No product found for id:${prodID}`)
+    res.status(404).send({ status: `error`, message: `No product found for id:${prodID}` })
   }
 }
 export const removeCart = async (req, res) => {
   const cartID = req.params.id
   const deleteCart = await cartMethod.deleteCart(cartID)
   if (deleteCart.deletedCount == 1) {
-    res.send({ status: `success`, message: "Deleted cart" })
+    res.send({ status: `success`, message: `Deleted cart, id: ${cartID}` })
   } else {
-    res.status(404).send({ status: `error`, message: "No carts found" })
+    req.logger.error(`No cart found for id: ${cartID}`)
+    res.status(404).send({ status: `error`, message: `No cart found for id: ${cartID}` })
   }
 }
 export const putProducts = async (req, res) => {
@@ -88,10 +100,11 @@ export const putProducts = async (req, res) => {
   const prodArray = req.body
   const putProduct = await cartMethod.putProducts(cid, prodArray)
   if (!putProduct) {
-    res.status(404).send({ status: "error", message: "Cart not found" })
+    req.logger.error(`No cart found for id: ${cid}`)
+    res.status(404).send({status: "error", message: `No cart found for id: ${cid}`})
   } else {
     if (!putProduct.message) {
-      res.status(201).send({ status: "success", message: `Products added` })
+      res.status(201).send({ status: "success", message: putProduct })
     }
   }
 }
@@ -102,9 +115,11 @@ export const upateQuantity = async (req, res) => {
   const updateQuan = await cartMethod.updateQuantity(cid, pid, prodQuantity)
   if (updateQuan.message || updateQuan == -1) {
     if (updateQuan == -1) {
-      res.status(404).send({ status: "error", message: "Prod not found" })
+      req.logger.error(`No product found for id: ${pid}`)
+      res.status(404).send({ status: "error", message: `No product found for id: ${pid}` })
     } else {
-      res.status(404).send({ status: "error", message: "Cart not found" })
+      req.logger.error(`No cart found for id: ${cid}`)
+      res.status(404).send({ status: "error", message: `No cart found for id: ${cid}` })
     }
   } else {
     res.status(201).send({ status: "success", message: updateQuan })
@@ -119,7 +134,8 @@ export const removeProducts = async (req, res) => {
       message: `Prodcuts deleted from cart: ${cid}`,
     })
   } else {
-    res.status(404).send({ status: `error`, message: "Cart not found" })
+    req.logger.error(deleteProd.message)
+    res.status(404).send({ status: `error`, message: deleteProd.message })
   }
 }
 
@@ -128,7 +144,8 @@ export const purchase = async (req, res) => {
   const {email} = req.body
   const cart = await cartMethod.getCartById(cid)
   if (!cart) {
-    return res.status(404).send({ status: "error", message: "Cart not found" });
+    req.logger.error(`No cart found for id: ${cid}`)
+    return res.status(404).send({ status: "error", message: `No cart found for id: ${cid}` });
   }
   let available = []
   let totPrice = 0
@@ -163,7 +180,8 @@ export const purchase = async (req, res) => {
       await cartMethod.deleteCart(cid)
       res.send({status: "success", message: "Compra exitosa", ticket:ticket})
     } else {
-      res.status(400).send({ status: "error", message: "Some products are not available", unavailable })
+      req.logger.info(`Some product/s are not avialable ${unavailable}`)
+      res.status(400).send({ status: "error", message: `Some product/s are not avialable ${unavailable}`})
     }
   }
 }

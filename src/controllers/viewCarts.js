@@ -3,7 +3,8 @@ import { cartMethod } from "../dao/factory.js"
 export const getCart = async (req,res) => {
     const cid = req.params.cid
     const cart = await cartMethod.getCartById(cid)
-    if(!cart){
+    if(cart.message){
+        req.logger.info(cart.message)
         return res.redirect('/products')
     }
     let products = []

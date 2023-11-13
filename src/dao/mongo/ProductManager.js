@@ -29,8 +29,13 @@ export class ProductManager {
     return products
   }
   getProductById = async(id) => {
-    const product = await productModel.findOne({_id:id})
-    return product
+    try {
+      const product = await productModel.findOne({_id:id})
+      return product
+    } catch (error) {
+      return error
+    }
+    
   }
   addProduct = async (product) => {
     try {
@@ -42,16 +47,16 @@ export class ProductManager {
   }
   updateProduct = async(id,updateData)=>{
     try {
-        const update = await productModel.updateOne({_id:id},updateData,{runValidators:true})
-        return update
+      const update = await productModel.updateOne({_id:id},updateData,{runValidators:true})
+      return update
     } catch (error) {
       return error
     }
   }
   deleteProduct = async(id)=>{
     try {
-      await productModel.deleteOne({_id:id})
-      return "Product deleted"
+      const result = await productModel.deleteOne({_id:id})
+      return result
     } catch (error) {
       return error
     }

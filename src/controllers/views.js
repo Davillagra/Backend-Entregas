@@ -14,6 +14,7 @@ export  const adminAccess = (req, res, next) => {
     if (req.session.user.role === "admin") {
         next()
     } else {
+        req.logger.info("Admin endpoint")
         return res.redirect('/products')
     }
 }
@@ -21,6 +22,7 @@ export  const userAccess = (req, res, next) => {
     if (req.session.user.role === "user") {
         next()
     } else {
+        req.logger.info("User-only endpoint")
         return res.redirect('/profile')
     }  
 }

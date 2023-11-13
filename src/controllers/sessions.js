@@ -1,7 +1,10 @@
 import { options } from "../config/options.js"
 
 export const login = async (req, res) => {
-  if(!req.user) return res.status(400).send({status:"error",error:"Invalid credentials"})
+  if(!req.user) {
+    req.logger.info("Invalid credentials")
+    return res.status(400).send({status:"error",error:"Invalid credentials"})
+  } 
   req.session.user = {
     name: `${req.user.first_name} ${req.user.last_name}`,
     email: req.user.email,
@@ -14,20 +17,25 @@ export const login = async (req, res) => {
 }
 
 export const faillogin = (req, res) => {
-  res.send({ status: "error", error:"Failed login"})
+  req.logger.error("Failed login")
+  res.send({ status: "error", message:"Failed login"})
 }
 
 export const signup = async (req, res) => {
-    res.send({ status: "success", message: "Usuario registrado" })
+  res.send({ status: "success", message: "Usuario registrado" })
 }
 
 export const failSignup = async (req, res) => {
-  res.send({ error: "Failed" })
+  req.logger.error("Failed signup")
+  res.send({ status: "error" ,message:"Failed login"})
 }
 
 export const logout = (req, res) => {
   req.session.destroy((error) => {
-    if (error) return res.send({ error })
+    if (error) {
+      req.logger.error("Cannot destroy session")
+      res.send({ status: "error", message:"Cannot destroy session" })
+    } 
     res.redirect("/login")
   })
 }
@@ -44,6 +52,7 @@ export const current = async (req, res) => {
     let {first_name,last_name,age,email,cart} =  req.user
     res.send({session:{first_name,last_name,age,email,cart}})
   } else {
+    req.logger.info("Must login firts")
     res.status(401).send({status:"error",message:"Must login firts"})
   }
 }
@@ -54,6 +63,7 @@ export const updateSession = async (req,res)=> {
     req.session.user = req.user
     res.send({status:"success",message:"User updated",data:req.session.user})
   } else {
+    req.logger.error("Cannot update")
     res.status(401).send({status:"error",message:"Cannot update"})
   }
 }
