@@ -51,3 +51,31 @@ error: Error
 warning: Warning
 info: Info
 debug: Debug
+error: E11000 duplicate key error collection: Ecomerce.products index: code_1 dup key: { code: "PROD066" }
+error: E11000 duplicate key error collection: Ecomerce.products index: code_1 dup key: { code: "PROD076" }
+error: products validation failed: stock: Path `stock` is required., code: Path `code` is required.
+error: No se puede repetir el codigo en dos productos
+error: No se puede repetir el codigo en dos productos
+error: No se puede repetir el codigo en dos productos
+error: No se puede repetir el codigo en dos productos
+error: No se puede repetir el codigo en dos productos
+error: No se puede repetir el codigo en dos productos
+error: No se puede repetir el codigo en dos productos
+error: No se puede repetir el codigo en dos productos
+error: No se puede repetir el codigo en dos productos
+error: No se puede repetir el codigo en dos productos
+error: No se puede repetir el codigo en dos productos
+error: No se puede repetir el codigo en dos productos
+error: No se puede repetir el codigo en dos productos
+error: No product found for id: 6504b7599b7d3d94cce06993
+error: No product found for id: dbabd32ab7c918a0eacde42f
+error: No product found for id: 89fbca48cccb93df2b7a5dd8
+error: No product found for id: 89fbca48cccb93df2b7a5dd8
+error: No product found for id: 89fbca48cccb93df2b7a5dd8
+error: No product found for id: 89fbca48cccb93df2b7a5dd8
+error: No product found for id: cb4cb4efed6faf8fb43068a0
+error: No cart found for id: faf60df9925641a0dbbcef3
+error: No cart found for id: faf60df9925641a0dbbcef3
+error: No cart found for id: faf60df9925641a0dbbcef3
+error: No cart found for id: faf60df9925641a0dbbcef3a
+error: No cart found for id: 0188aace24b279424b4ad4f2

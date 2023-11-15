@@ -1,51 +1,51 @@
 import fs from "fs"
+import { Faker, es } from '@faker-js/faker'
+
+const faker = new Faker({ locale: [es] })
 
 export class ProductManagerLocal {
   constructor() {
     this.path = "./src/data/products.json"
-    this.path2 = "./src/data/usedIds.json"
   }
   getProds = async() => {
     if(fs.existsSync(this.path)) {
       const products = {}
       const data = await fs.promises.readFile(this.path,"utf-8")
       products.docs = JSON.parse(data)
-      return products.docs
+      return products
     } else {
-      await fs.promises.writeFile(this.path,"[]")
+      return await fs.promises.writeFile(this.path,"[]")
     }
   }
   addProduct = async (product) => {
-    const products = await this.getProds()
-    let actualId
-    if(fs.existsSync(this.path2)) {
-      const idData = await fs.promises.readFile(this.path2,"utf-8")
-      actualId = JSON.parse(idData)
-    } else {
-      await fs.promises.writeFile(this.path2,"[1]")
-      actualId = [0]
-    }
+    const result = await this.getProds()
+    const products = result.docs
     let codeExist = false
-    products.forEach((e) => {
-      if (e.code === product.code) {
+
+    products.forEach((p) => {
+      product.forEach((e)=>{
+        if (e.code === p.code) {
         codeExist = true
       }
+      })
     })
     if (!codeExist) {
-      product.id = actualId[actualId.length - 1 ] + 1
-      products.push(product)
+      product.forEach((e)=>{
+        e.id = faker.database.mongodbObjectId()
+        products.push(e)
+      })
       await fs.promises.writeFile(this.path,JSON.stringify(products))
-      actualId.push(product.id)
-      await fs.promises.writeFile(this.path2,JSON.stringify(actualId))
-      return `Producto agregado`
+      return product
     } else {
-      return "No se puede repetir el codigo en dos productos"
+      products.message = "No se puede repetir el codigo en dos productos"
+      return products
     }
   }
   getProductById = async(id) => {
     let idExist = false
     let prodFound = {}
-    const products = await this.getProducts()
+    const result = await this.getProds()
+    const products = result.docs
     products.forEach((e) => {
       if (e.id === id) {
         idExist = true
@@ -63,7 +63,8 @@ export class ProductManagerLocal {
     if(typeof product === "string") {
       return `El producto de id ${id} no existe`
     } else {
-      const products = await this.getProducts()
+      const result = await this.getProds()
+      const products = result.docs
       const productUpdated = { ...product, ...updateData}
       const index = products.findIndex((p)=>p.id === productUpdated.id)
       products[index] = productUpdated
@@ -76,11 +77,13 @@ export class ProductManagerLocal {
     if(typeof product === "string") {
       return `El producto de id: ${id} no existe`
     }else {
-      const products = await this.getProducts()
+      const result = await this.getProds()
+      const products = result.docs
       const index = products.findIndex((p)=> p.id === id)
       products.splice(index,1)
       await fs.promises.writeFile(this.path,JSON.stringify(products))
-      return `El producto de id: ${id} se borró exitosamente`
+      const deletedProd = {message:`Se elimino el producto de id: ${id}`,deleteCount:1}
+      return deletedProd
     } 
   }
 }

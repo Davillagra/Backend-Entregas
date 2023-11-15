@@ -7,6 +7,7 @@ export const getProducts = async (req,res)=>{
     const query = req.query.query
     const sort = req.query.sort
     const products = await productMethod.getProds(limit,page,sort,query)
+    console.log(products)
     res.send({
         status:"succes",
         payload:products.docs,

@@ -3,11 +3,10 @@ import {dirname} from "path"
 import multer from "multer"
 import bcrypt from "bcrypt"
 import { options } from "./config/options.js"
-import { Faker, es, en } from '@faker-js/faker'
+import { Faker, es} from '@faker-js/faker'
 import winston from 'winston'
 
 const faker = new Faker({ locale: [es] })
-const fakerEn = new Faker({ locale: [en] })
 
 const __filepath = fileURLToPath(import.meta.url)
 const __dirname = dirname(__filepath)

@@ -39,8 +39,8 @@ export class ProductManager {
   }
   addProduct = async (product) => {
     try {
-      await productModel.create(product)
-      return "Porduct/s created"
+      const result = await productModel.create(product)
+      return result
     } catch (error) {
       return error
     }
