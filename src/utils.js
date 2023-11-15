@@ -99,7 +99,7 @@ const prodLogger = winston.createLogger({
     ]
 })
 
-const environment = options.enviroment
+const environment = process.env.NODE_ENV || 'dev'
 
 export const addLogger = (req, res, next) => {
     if (environment == 'dev') {

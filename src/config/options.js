@@ -24,6 +24,5 @@ export const options = {
     transport:{
         mail:process.env.MAIL,
         pass:process.env.MAIL_PASS
-    },
-    enviroment:process.env.TEST_ENVIROMENT
+    }
 }

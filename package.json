@@ -4,8 +4,8 @@
   "description": "trabajando con npm",
   "main": "ProductManager.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon .\\src\\index.js"
+    "start": "cross-env NODE_ENV=dev nodemon .\\src\\index.js",
+    "test": "cross-env NODE_ENV=prod nodemon .\\src\\index.js"
   },
   "author": "Sebastian",
   "license": "ISC",
@@ -34,5 +34,8 @@
     "validator": "^13.11.0",
     "winston": "^3.11.0"
   },
-  "type": "module"
+  "type": "module",
+  "devDependencies": {
+    "cross-env": "^7.0.3"
+  }
 }
