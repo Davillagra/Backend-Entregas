@@ -1,9 +1,10 @@
 import { Router } from "express"
 import { getCart, postNewCart, purchase, pushProducts, putProducts, removeCart, removeProduct, removeProducts, upateQuantity } from "../controllers/cart.js"
+import { verifyToken, verifyTokenAdmin,verifyTokenPremium } from "../controllers/jwt.js"
 
 const router = Router()
 
-router.post("/", postNewCart)
+router.post("/",verifyToken, postNewCart)
 router.get("/:cid", getCart)
 router.post("/:cid/product/:pid", pushProducts)
 router.delete(`/:cid/product/:pid`, removeProduct)

@@ -19,10 +19,13 @@ export const options = {
         url:process.env.GITHUB_URL
     },
     bcrypt:{
-        salt:process.env.BCRYPT_SALT
+        salt:parseInt(process.env.BCRYPT_SALT)
     },
     transport:{
         mail:process.env.MAIL,
         pass:process.env.MAIL_PASS
-    }
+    },
+    token:process.env.SECRET_TOKEN,
+    tokenAdmin:process.env.SECRET_TOKEN_ADMIN,
+    tokenPremium:process.env.SECRET_TOKEN_PREMIUM
 }

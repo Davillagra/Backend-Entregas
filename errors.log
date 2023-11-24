@@ -103,3 +103,55 @@ fatal: Fatal
 error: Error
 warning: Warning
 info: Info
+info: Must login firts
+info: Passwords don't match
+error: Failed login
+error: Failed login
+error: Failed login
+error: Failed login
+error: Failed login
+error: Failed login
+info: Password must be diferent from the previous one
+info: Password must be diferent from the previous one
+error: Failed login
+info: Password must be diferent from the previous one
+info: Password updated succesfully
+info: Password updated succesfully
+info: Password must be diferent from the previous one
+info: Password updated succesfully
+info: Passwords didn't match
+info: Passwords didn't match
+info: Passwords didn't match
+info: Passwords didn't match
+info: Passwords didn't match
+info: Passwords didn't match
+info: Passwords didn't match
+info: Passwords didn't match
+info: Passwords didn't match
+info: Password updated succesfully
+info: Password must be diferent from the previous one
+info: Password must be diferent from the previous one
+info: Password must be diferent from the previous one
+info: Password must be diferent from the previous one
+info: Passwords didn't match
+error: Failed login
+error: E11000 duplicate key error collection: Ecomerce.products index: code_1 dup key: { code: "PROD0124" }
+error: Failed login
+error: Failed login
+info: Password must be diferent from the previous one
+info: Password updated succesfully
+error: Failed login
+error: Failed login
+error: Failed login
+error: Failed login
+error: Failed login
+error: Failed login
+error: Failed login
+error: Failed login
+error: Failed login
+error: Failed login
+error: Failed login
+error: Failed login
+error: Failed login
+error: Failed login
+error: E11000 duplicate key error collection: Ecomerce.products index: code_1 dup key: { code: "PROD0124" }

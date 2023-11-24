@@ -46,6 +46,10 @@ const productSchema = new mongoose.Schema({
         type: [String],
         enum: ['Category1', 'Category2', 'Category3', 'Category4'],
         required: true
+    },
+    owner: {
+        type: [String],
+        default: "admin"
     }
 })
 productSchema.virtual('hasStock').get(function() {

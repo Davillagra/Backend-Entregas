@@ -5,6 +5,7 @@ const addToCart = ()=>{
     forms.forEach(form => {
         form.addEventListener('submit', async (event) =>{
             event.preventDefault()
+            const token = localStorage.getItem('token')
             const formData = new FormData(form)
             const quantity = +formData.get('quantity') || 0
             const _id = formData.get('_id')
@@ -14,7 +15,8 @@ const addToCart = ()=>{
                 method: 'POST',
                 body: JSON.stringify(obj),
                 headers: {
-                    'Content-Type': 'application/json'
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
                 }
             }).then(result => result.json()).then((json) => {
                 if(json.status ==="success") {
