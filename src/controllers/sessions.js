@@ -17,7 +17,12 @@ export const login = async (req, res) => {
     _id: req.user._id,
     cart: req.user.cart ?? null,
   }
-  const token = jwt.sign({ email:req.session.user.email, purpose: 'login' }, options.token, { expiresIn: '1h' })
+  let token
+  if(req.user.role === "premium"){
+    token = jwt.sign({ email:req.session.user.email, purpose: 'login' }, options.tokenPremium, { expiresIn: '1h' })
+  } else {
+    token = jwt.sign({ email:req.session.user.email, purpose: 'login' }, options.token, { expiresIn: '1h' })
+  }
   return res.send({ status: "success", token, payload:req.session.user })
 }
 

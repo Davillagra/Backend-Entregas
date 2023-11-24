@@ -11,6 +11,7 @@ import viewCartsRouter from "./routes/viewCarts.js"
 import ChatManager from "./dao/mongo/ChatManager.js"
 import viewRouter  from "./routes/views.js"
 import sessionRouter from "./routes/sessions.js"
+import usersRouter from "./routes/users.js"
 import session from 'express-session'
 import MongoStore from "connect-mongo"
 import passport from "passport"
@@ -57,6 +58,7 @@ app.use(viewRouter)
 app.use("/api/sessions",sessionRouter)
 app.use("/mockingproducts",mockingRouter)
 app.use("/loggertest",loggerTestRouter)
+app.use("/api/users/premium",usersRouter)
 
 const server = app.listen(8080,()=>{console.log(`Servidor en linea en el puerto 8080`)})
 const io = new Server(server)

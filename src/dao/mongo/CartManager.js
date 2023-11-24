@@ -3,8 +3,8 @@ import { cartModel } from "../../models/carts.js"
 export class CartManager {
     constructor() {}
       getNewCart = async()=>{
-        const newCart = new cartModel()
         try {
+          const newCart = new cartModel()
           const data = await cartModel.create(newCart)
           return data._id
         } catch (error) {

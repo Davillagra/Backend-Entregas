@@ -23,16 +23,27 @@ export const getProducts = async (req,res)=>{
 export const getProductById = async (req,res)=> {
     const productID = req.params.id
     const product = await productMethod.getProductById(productID)
+    if(!product){
+        req.logger.error(`No products found for id: ${productID}`)
+        return res.status(404).send({status:"error",message:`No products found for id: ${productID}`})
+    }
     if(!product.message){
         res.send({status:"succes",message:product})
     } else {
         req.logger.error(product.message)
-        res.status(404).send({status:"error",message:product.message})
+        res.status(404).send({status:"error",message:`No products found for id: ${productID}`})
     }
 }
 
 export const postProduct = async (req,res)=>{
     const products = req.body
+    let owner = req.user ? req.user.email : req.decodedToken.email
+    let role = req.user ? req.user.role : req.decodedToken.role
+    if(role === "premium"){
+        products.forEach(e => {e.owner = owner})
+    } else {
+        products.forEach(e => {e.owner = role})
+    }
     const addProduct = await productMethod.addProduct(products)
     if(!addProduct.message){
         const data = await productMethod.getProds()
@@ -60,13 +71,20 @@ export const updateProduct = async (req,res)=>{
 
 export const deleteProduct = async (req,res)=>{
     const productID = req.params.id
-    const deleteProduct = await productMethod.deleteProduct(productID)
-    if(!deleteProduct.deleteCount == 0){
+    const role = req.decodedToken.role
+    const product = await productMethod.getProductById(productID)
+    if(role === "admin" || product.owner === req.decodedToken.owner ){
+        const deleteProduct = await productMethod.deleteProduct(productID)
+        if(!deleteProduct.deletedCount == 0){
         const data = await productMethod.getProds()
         io.emit("change", {data})
         res.send({status:"success",message:deleteProduct})
-    } else {
+        } else {
         req.logger.error(`No product found for id: ${productID}`)
         res.status(404).send({status:"error",message:`No product found for id: ${productID}`})
+        }
+    } else {
+        req.logger.error(`You don't have permisions to delete`)
+        res.status(401).send({status:"error",message:`You don't have permisions to delete`})
     }
 }

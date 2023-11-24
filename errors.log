@@ -155,3 +155,17 @@ error: Failed login
 error: Failed login
 error: Failed login
 error: E11000 duplicate key error collection: Ecomerce.products index: code_1 dup key: { code: "PROD0124" }
+error: products validation failed: title: Path `title` is required., description: Path `description` is required., price: Path `price` is required., thumbnail: Path `thumbnail` is required., code: Path `code` is required., stock: Path `stock` is required.
+error: No product found for id: 6560b2640abacd4fb1a478e8
+error: No product found for id: 6560b32bd8ea00b8915d74b3
+error: No product found for id: 6554dd37ee76e660ad55c022
+error: Cast to ObjectId failed for value "655977d3c22125936c33593" (type string) at path "_id" for model "products"
+error: Cast to ObjectId failed for value "655977d3c22125936c33593" (type string) at path "_id" for model "products"
+error: No products found for id: 655977d3c22125936c335936
+error: Cast to ObjectId failed for value "655977d3c22125936c33593" (type string) at path "_id" for model "products"
+error: No product found for id: 6560b32bd8ea00b8915d74b3
+error: Failed login
+error: Failed login
+error: You don't have permisions to delete
+error: No products found for id: a0bbdcadebcd77ea7a4cbe3f
+error: You can't push your own product

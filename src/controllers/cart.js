@@ -29,9 +29,10 @@ export const postNewCart = async (req, res) => {
       }
       req.session.user.cart = updatedUser.cart
       return res.status(201).send({status: "success",message: "Products added",id: updatedUser.cart._id,})
+    } else {
+      return res.status(201).send({ status: "success", message: "Cart created", id: newCart })
     }
-  }
-  if (updatedUser.cart) {
+  } else {
     if (prodArray.quantity) {
       const putProducts = await cartMethod.putProducts(updatedUser.cart, [prodArray])
       if (!putProducts) {
@@ -41,6 +42,7 @@ export const postNewCart = async (req, res) => {
       req.session.user.cart = updatedUser.cart
       return res.status(201).send({status: "success",message: "Products added",id: updatedUser.cart._id,})
     }
+    return res.status(200).send({ status: "success", message: "Cart already exist"})
   }
 }
 
@@ -57,6 +59,19 @@ export const getCart = async (req, res) => {
 export const pushProducts = async (req, res) => {
   const cid = req.params.cid
   const pid = req.params.pid
+  let owner = req.user ? req.user.email : req.decodedToken.email
+  let role = req.user ? req.user.role : req.decodedToken.role
+  if(role === "premium"){
+    const product = await productMethod.getProductById(pid)
+    if(!product){
+      req.logger.error(`No products found for id: ${pid}`)
+      return res.status(404).send({status:"error",message:`No products found for id: ${pid}`})
+    }
+    if(product.owner === owner){
+      req.logger.error(`You can't push your own product`)
+      return res.status(401).send({status:"error",message:`You can't push your own product`})
+    }
+  }
   const push = await cartMethod.pushProducts(cid, pid)
   if (!push) {
     req.logger.error(`No cart found for id: ${cid}`)
@@ -99,6 +114,9 @@ export const putProducts = async (req, res) => {
   const cid = req.params.cid
   const prodArray = req.body
   const putProduct = await cartMethod.putProducts(cid, prodArray)
+  let flag = false
+  console.log(req.decodedToken)
+  prodArray.forEach((p)=> p)
   if (!putProduct) {
     req.logger.error(`No cart found for id: ${cid}`)
     res.status(404).send({status: "error", message: `No cart found for id: ${cid}`})
