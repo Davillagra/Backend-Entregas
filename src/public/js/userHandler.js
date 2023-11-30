@@ -145,3 +145,16 @@ if(resetPassForm){
     })
     }
 }
+function toggleOptions() {
+    var switchElement = document.getElementById('switch');
+    var selectedOptionElement = document.getElementById('selectedOption');
+    var selectedOptionInput = document.getElementById('selectedOptionInput');
+
+    if (switchElement.checked) {
+        selectedOptionElement.textContent = 'Premium';
+        selectedOptionInput.value = 'premium';
+    } else {
+        selectedOptionElement.textContent = 'User';
+        selectedOptionInput.value = 'user';
+    }
+}

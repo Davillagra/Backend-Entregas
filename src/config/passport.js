@@ -9,7 +9,7 @@ const LocalStrategy = local.Strategy
 const GitHubStrategy = gitHubStrategy.Strategy
 const initializePassport = () => {
   passport.use("signup",new LocalStrategy({ passReqToCallback: true, usernameField: "email" },async (req, username, password, done) => {
-        const { first_name, last_name, email, age } = req.body
+        const { first_name, last_name, email, age,role } = req.body
         try {
           let user = await usersModel.findOne({ email })
           if (user) {
@@ -22,6 +22,7 @@ const initializePassport = () => {
             email,
             age,
             password: createHash(password),
+            role
           }
           let result = await usersModel.create(newUser)
           return done(null, result)
