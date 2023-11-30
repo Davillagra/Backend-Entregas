@@ -75,7 +75,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "[\r\n    {\r\n        \"category\": [\"Category3\"],\r\n        \"title\": \"Producto 1\",\r\n        \"description\": \"Descripción del Producto 1\",\r\n        \"price\": 19.99,\r\n        \"thumbnail\": \"imagen1.jpg\",\r\n        \"code\": \"PROD001\",\r\n        \"stock\": 50\r\n    }\r\n]\r\n",
+							"raw": "[\r\n    {\r\n        \"category\": \"Category3\",\r\n        \"title\": \"Producto 1\",\r\n        \"description\": \"Descripción del Producto 1\",\r\n        \"price\": 19.99,\r\n        \"thumbnail\": \"imagen1.jpg\",\r\n        \"code\": \"PROD001\",\r\n        \"stock\": 50\r\n    }\r\n]\r\n",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -119,7 +119,7 @@
 			"name": "Carts",
 			"item": [
 				{
-					"name": "GetNewCart",
+					"name": "PostNewCart",
 					"request": {
 						"method": "POST",
 						"header": [],
@@ -166,18 +166,24 @@
 				{
 					"name": "PutProducts",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImRhbmllbHNlYmFzdGlhbnZpbGxhZ3JhQGhvdG1haWwuY29tIiwicHVycG9zZSI6ImxvZ2luIiwiaWF0IjoxNzAxMzYzMjI4LCJleHAiOjE3MDEzNjY4Mjh9.oVEqmupXE77QYkS36g5-0aD2hZFGp30B1FaFCxEODS0"
+							}
+						},
 						"method": "PUT",
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "[\r\n    {\r\n        \"_id\":\"64f88d13fea2449081361563\",\r\n        \"quantity\":3\r\n    },\r\n    {\r\n        \"_id\":\"64f622f2f98369370338618b\",\r\n        \"quantity\":2\r\n    }\r\n]",
+							"raw": "[\r\n    {\r\n        \"_id\":\"6504b7599b7d3d94cce0699e\",\r\n        \"quantity\":3\r\n    },\r\n    {\r\n        \"_id\":\"64f622f2f98369370338618\",\r\n        \"quantity\":2\r\n    }\r\n]",
 							"options": {
 								"raw": {
 									"language": "json"
 								}
 							}
 						},
-						"url": "localhost:8080/api/cart/65032a2a559cb5056c2ad505"
+						"url": "localhost:8080/api/cart/6568b0da8832279b1764df9a"
 					},
 					"response": []
 				},
@@ -195,7 +201,7 @@
 								}
 							}
 						},
-						"url": "localhost:8080/api/cart/65032a2a559cb5056c2ad505/products/64f88d13fea2449081361563"
+						"url": "localhost:8080/api/cart/653aa0294373d0d66774c8be/products/6504b7599b7d3d94cce06998"
 					},
 					"response": []
 				},
@@ -205,6 +211,15 @@
 						"method": "DELETE",
 						"header": [],
 						"url": "localhost:8080/api/cart/65035016e1f7627b2fd0085c/products"
+					},
+					"response": []
+				},
+				{
+					"name": "Purchase",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"url": "localhost:8080/api/cart/653aa0294373d0d66774c8be/purchase"
 					},
 					"response": []
 				}
@@ -228,6 +243,160 @@
 							}
 						},
 						"url": "localhost:8080/api/chat/"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Users",
+			"item": [
+				{
+					"name": "Prueba",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "localhost:8080/api/sessions/updateSession"
+					},
+					"response": []
+				},
+				{
+					"name": "Recover",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\":\"danielsebastianvillagra@hotmail.com\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "localhost:8080/api/sessions/recover"
+					},
+					"response": []
+				},
+				{
+					"name": "Restore",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"pass\":\"zdsadsaldas\",\r\n    \"passDup\":\"455555\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "localhost:8080/recoverpass/restore"
+					},
+					"response": []
+				},
+				{
+					"name": "New Request",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/recoverpass/?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Inpvcmthbm9pZEBnbWFpbC5jb20iLCJwdXJwb3NlIjoicmVzZXQtcGFzc3dvcmQiLCJpYXQiOjE3MDA3NTQyNTMsImV4cCI6MTcwMDc1NDI1NH0.BcaWcfzNTV13DgREEFIhazV_bUnF9t7bISCGCQSNIY0",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"recoverpass",
+								""
+							],
+							"query": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Inpvcmthbm9pZEBnbWFpbC5jb20iLCJwdXJwb3NlIjoicmVzZXQtcGFzc3dvcmQiLCJpYXQiOjE3MDA3NTQyNTMsImV4cCI6MTcwMDc1NDI1NH0.BcaWcfzNTV13DgREEFIhazV_bUnF9t7bISCGCQSNIY0"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "login",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\":\"danielsebastianvillagra@hotmail.com\",\r\n    \"password\":\"asd\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "localhost:8080/api/sessions/login"
+					},
+					"response": []
+				},
+				{
+					"name": "login Copy",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\":\"adminCoder@coder.com\",\r\n    \"password\":\"adminCod3r123\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "localhost:8080/api/sessions/login"
+					},
+					"response": []
+				},
+				{
+					"name": "switchrole",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InByZW1pdW1AbWFpbC5jb20iLCJwdXJwb3NlIjoibG9naW4iLCJpYXQiOjE3MDA4NDMxNzMsImV4cCI6MTcwMDg0Njc3M30.BfiItEnAkHw-jvbivPWT4d0q19FN9MZ6O8TkZmbX0ZU"
+							}
+						},
+						"method": "GET",
+						"header": [],
+						"url": "localhost:8080/api/users/premium/65131c2b465c6382ff6b0d8b"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Mock",
+			"item": [
+				{
+					"name": "New Request",
+					"request": {
+						"method": "GET",
+						"header": []
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Test",
+			"item": [
+				{
+					"name": "GetTest",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "localhost:8080/loggertest"
 					},
 					"response": []
 				}
