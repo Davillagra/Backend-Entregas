@@ -101,7 +101,7 @@ export const removeProduct = async (req, res) => {
   }
 }
 export const removeCart = async (req, res) => {
-  const cartID = req.params.id
+  const cartID = req.params.cid
   const deleteCart = await cartMethod.deleteCart(cartID)
   if (deleteCart.deletedCount == 1) {
     res.send({ status: `success`, message: `Deleted cart, id: ${cartID}` })
@@ -113,9 +113,11 @@ export const removeCart = async (req, res) => {
 export const putProducts = async (req, res) => {
   const cid = req.params.cid
   const prodArray = req.body
+  if(Object.keys(prodArray).length === 0) {
+    req.logger.error(`You must send a product array`)
+    return res.status(409).send({status: "error", message: "No product array sended"})
+  }
   const putProduct = await cartMethod.putProducts(cid, prodArray)
-  let flag = false
-  console.log(req.decodedToken)
   prodArray.forEach((p)=> p)
   if (!putProduct) {
     req.logger.error(`No cart found for id: ${cid}`)
@@ -123,6 +125,9 @@ export const putProducts = async (req, res) => {
   } else {
     if (!putProduct.message) {
       res.status(201).send({ status: "success", message: putProduct })
+    } else {
+    req.logger.error(`Cart update failed`)
+    res.status(404).send({status: "error", message: putProduct.message})
     }
   }
 }
@@ -159,9 +164,9 @@ export const removeProducts = async (req, res) => {
 
 export const purchase = async (req, res) => {
   const cid = req.params.cid
-  const {email} = req.body
+  const email = req.decodedToken.email
   const cart = await cartMethod.getCartById(cid)
-  if (!cart) {
+  if (cart.message) {
     req.logger.error(`No cart found for id: ${cid}`)
     return res.status(404).send({ status: "error", message: `No cart found for id: ${cid}` });
   }

@@ -37,6 +37,7 @@ export const getProductById = async (req,res)=> {
 
 export const postProduct = async (req,res)=>{
     const products = req.body
+    console.log(products)
     let owner = req.user ? req.user.email : req.decodedToken.email
     let role = req.user ? req.user.role : req.decodedToken.role
     if(role === "premium"){

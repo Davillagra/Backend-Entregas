@@ -1,0 +1,281 @@
+paths:
+  /api/cart/:
+    post:
+      summary: Crea un carrito
+      tags: 
+        - Carts
+      security:
+         - BearerAuth: []
+      responses:
+        "201":
+          description: Carrito creado, se proporciona la id
+        "400":
+          description: No se pudo generar el carrito
+        "401":
+          description: No está autorizado o no envió ningun token
+  /api/cart/{cid}:
+    get:
+      summary: Encuentra el carrito de id proporcionado
+      tags: 
+        - Carts
+      parameters:
+        - name: cid
+          in: path
+          requiered: true
+          description: id del carrito a encontrar
+          schema:
+            $type: String
+      responses:
+        "200":
+          description: Carrito encontrado
+          content:
+              application/json:
+                schema:
+                    $ref: '#components/schemas/Carts'
+        "404":
+          description: No se encontró el carrito
+    delete:
+      summary: Borrar un carrito por su id
+      tags: 
+        - Carts
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: cid
+          in: path
+          requiered: true
+          description: id del carrito a borrar
+          schema:
+            $type: String
+      responses:
+        "200":
+          description: Carrito borrado
+          content:
+              application/json:
+                schema:
+                    $ref: '#components/schemas/Carts'
+        "404":
+          description: No se encontró el carrito
+    put:
+      summary: Agregar una lista de productos a un carrito
+      tags: 
+        - Carts
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: cid
+          in: path
+          requiered: true
+          description: id del carrito a actualizar
+          schema:
+            $type: String
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#components/requestBodies/putProducts'
+      responses:
+        "201":
+          description: Carrito actualizado
+          content:
+              application/json:
+                schema:
+                    $ref: '#components/schemas/Carts'
+        "409":
+          description: No se envio un listado de productos
+        "404":
+          description: No se encontró el carrito o los productos no existen
+  /api/cart/{cid}/product/{pid}:
+    post:
+      sumary: agrega un producto a un carrito especifico
+      tags:
+       - Carts
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: cid
+          in: path
+          requiered: true
+          description: id del carrito a actualizar
+          schema:
+            $type: String
+        - name: pid
+          in: path
+          requiered: true
+          description: id del producto a agregar
+          schema:
+            $type: String
+      responses:
+        "201":
+          description: Producto añadido
+        "401":
+          description: No puedes agregar un producto que tu posees
+        "404":
+          description: No se encontró el id del producto o del carrito
+    delete:
+      sumary: Elimina un producto de un carrito
+      tags:
+       - Carts
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: cid
+          in: path
+          requiered: true
+          description: id del carrito a actualizar
+          schema:
+            $type: String
+        - name: pid
+          in: path
+          requiered: true
+          description: id del producto a eliminar
+          schema:
+            $type: String
+      responses:
+        "201":
+          description: Producto eliminado
+        "401":
+          description: No puedes agregar un producto que tu posees
+        "404":
+          description: No se encontró el id del producto o del carrito
+    put:
+      sumary: Actualiza la cantidad de productos de un carrito
+      tags:
+       - Carts
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: cid
+          in: path
+          requiered: true
+          description: id del carrito a actualizar
+          schema:
+            $type: String
+        - name: pid
+          in: path
+          requiered: true
+          description: id del producto a actualizar
+          schema:
+            $type: String
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#components/requestBodies/updateQuantity'    
+      responses:
+        "201":
+          description: Cantidad actualizada
+        "404":
+          description: No se encontró el id del producto o del carrito
+  /api/cart/{cid}/products:
+    delete:
+      sumary: Elmina todos los productos de un carrito
+      tags:
+       - Carts
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: cid
+          in: path
+          requiered: true
+          description: id del carrito a actualizar
+          schema:
+            $type: String
+      responses:
+        "200":
+          description: Productos eliminados
+        "404":
+          description: No se encontró el id del carrito
+  /api/cart/{cid}/purchase:
+    put:
+      sumary: Confirma la compra del carrito
+      tags:
+       - Carts
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: cid
+          in: path
+          requiered: true
+          description: id del carrito
+          schema:
+            $type: String
+      responses:
+        "200":
+          description: Compra exitosa
+        "400":
+          description: Algunos productos no están disponibles
+        "404":
+          description: No se encontró el id del carrito
+
+components:
+  schemas:
+    Carts:
+      type: object
+      properties:
+        _id:
+          type: ObjectId
+          description: ID autogenerado de mongo
+        products:
+          type: array
+          description: Lista de productos en el carrito
+          items:
+            product:
+              type: object
+              description: Producto
+            quantity:
+              type: integer
+              description: Cantidad del producto en el carrito
+      example:
+        {
+          _id: ObjectId("6504b7599b7d3d94cce06998"),
+          products: [
+            {
+              product: {},
+              quantity: 10
+            }
+          ]
+        }
+  requestBodies:
+    updateQuantity:
+      type: object
+      desciption: cantidad nueva que tendra el producto
+      properties:
+        quantity:
+         type: Integer
+         description: Cantidad
+      example:
+        {
+        quantity: 5
+        }
+    putProducts:
+      type: array
+      description: listado de productos y cantidades
+      items:
+        type: object
+        description: Elemento del listado
+        properties:
+          _id: 
+            type: ObjectId
+            description: ID del producto
+          quantity:
+            type: Integer
+            description: cantidad de productos (debe ser positivo)
+      example:
+        [
+          {
+          _id: ObjectId("6504b7599b7d3d94cce069a0"),
+          quantity: 2
+          },
+          {
+          _id: ObjectId("6504b7599b7d3d94cce0699e"),
+          quantity: 3
+          },
+        ]
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT

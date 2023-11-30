@@ -169,3 +169,27 @@ error: Failed login
 error: You don't have permisions to delete
 error: No products found for id: a0bbdcadebcd77ea7a4cbe3f
 error: You can't push your own product
+error: Cast to ObjectId failed for value "{id}" (type string) at path "_id" for model "products"
+error: Cast to ObjectId failed for value "{id}" (type string) at path "_id" for model "products"
+error: Cast to ObjectId failed for value "{id}" (type string) at path "_id" for model "products"
+error: Cast to ObjectId failed for value "{id}" (type string) at path "_id" for model "products"
+error: Cast to ObjectId failed for value "{id}" (type string) at path "_id" for model "products"
+error: Cast to ObjectId failed for value "{id}" (type string) at path "_id" for model "products"
+error: Cast to ObjectId failed for value ":id" (type string) at path "_id" for model "products"
+error: Cast to ObjectId failed for value "{id}" (type string) at path "_id" for model "products"
+error: E11000 duplicate key error collection: Ecomerce.products index: code_1 dup key: { code: "PROD001" }
+error: E11000 duplicate key error collection: Ecomerce.products index: code_1 dup key: { code: "PROD001" }
+error: E11000 duplicate key error collection: Ecomerce.products index: code_1 dup key: { code: "PROD0564" }
+error: E11000 duplicate key error collection: Ecomerce.products index: code_1 dup key: { code: "PROD0564" }
+error: products validation failed: stock: Path `stock` is required., code: Path `code` is required., thumbnail: Path `thumbnail` is required., price: Path `price` is required., description: Path `description` is required., title: Path `title` is required.
+error: products validation failed: stock: Path `stock` is required., code: Path `code` is required., thumbnail: Path `thumbnail` is required., price: Path `price` is required., description: Path `description` is required., title: Path `title` is required.
+error: E11000 duplicate key error collection: Ecomerce.products index: code_1 dup key: { code: "PROD0564" }
+error: Cast to ObjectId failed for value "dsadsad" (type string) at path "_id" for model "products"
+error: Cast to ObjectId failed for value "," (type string) at path "_id" for model "products"
+error: E11000 duplicate key error collection: 64f20f40222aa70316dfb9d2_Ecomerce.products index: code_1 dup key: { code: "PROD0564" }
+error: Failed login
+error: You must send a product array
+error: No cart found for id: 653fd5c654c36a84e4527aa2
+error: No cart found for id: 65524eb3e0eada23c175411
+error: No cart found for id: 65524eb3e0eada23c175411
+error: No cart found for id: 6568aff4d091feef3476bc1

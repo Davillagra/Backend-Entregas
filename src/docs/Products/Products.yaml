@@ -1,0 +1,227 @@
+paths:
+    /api/products/:
+      get:
+        summary: Obtiene todos los productos
+        tags:
+          - Products
+        parameters:
+          - name: limit
+            in: query
+            requiered: false
+            description: Limite de productos por pagina
+            schema:
+              $type: Integer
+          - name: page
+            in: query
+            requiered: false
+            description: Pagina a mostrar
+            schema:
+              $type: Integer
+          - name: sort
+            in: query
+            requiered: false
+            description: Ordenar por precio
+            schema:
+              $type: bool
+          - name: query
+            in: query
+            requiered: false
+            description: Se filtran los productos por categoria (enviando el nombre de una categoria), por productos no disponibles (enviando "not available") o por defecto muestra solo los productos con stock mayor a 0
+            schema:
+              $type: string
+        responses:
+          "200":
+            description: Los productos fueron obtenidos satisfactoriamente
+            content:
+              application/json:
+                schema:
+                  type: array
+                  items:
+                    $ref: '#components/schemas/Product'
+          "500":
+            description: Error interno del servidor, usualmente generado por una query defectuosa o un fallo de conexion con la BD
+      post:
+        summary: Se envia un array de productos para agregar a la BD
+        tags: 
+         - Products
+        security:
+          - BearerAuth: []
+        requestBody:
+          required: true
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#components/requestBodies/postProducts'
+        responses:
+          "201":
+            description: Los productos fueron agregados satisfactoriamente
+            content:
+              application/json:
+                schema:
+                  type: array
+                  items:
+                    $ref: '#components/schemas/Product'
+          "401":
+            description: No está autorizado o no envió ningun token
+          "404":
+            description: No se pudieron agregar los prodcutos a la BD
+    /api/products/{id}:
+      get:
+        summary: Obtiene un producto especifico
+        tags: 
+          - Products
+        parameters:
+          - name: id
+            in: path
+            requiered: true
+            description: id del producto a buscar
+            schema:
+              $type: String
+        responses:
+          "200":
+            description: El producto fue obtenido satisfactoriamente
+            content:
+              application/json:
+                schema:
+                    $ref: '#components/schemas/Product'
+          "404":
+            description: No se pudo encontrar el producto
+      put:
+        summary: Modifica un producto existente
+        tags: 
+          - Products
+        parameters:
+          - name: id
+            in: path
+            requiered: true
+            description: id del producto para actualizar
+            schema:
+              $type: String
+        security:
+          - BearerAuth: []
+        requestBody:
+          required: true
+          content:
+            application/json:
+              schema:
+                $ref: '#components/requestBodies/postProducts'
+        responses:
+          "201":
+            description: El producto fue actualizado correctamente
+            content:
+              application/json:
+                schema:
+                    $ref: '#components/requestBodies/postProducts'
+          "401":
+            description: No está autorizado o no envió ningun token
+          "404":
+            description: No se pudo encontrar el producto
+      delete:
+        summary: Elimina un prodcuto
+        tags: 
+          - Products
+        parameters:
+          - name: id
+            in: path
+            requiered: true
+            description: id del producto a borrar
+            schema:
+              $type: String
+        security:
+          - BearerAuth: []
+        responses:
+          "200":
+            description: El producto fue borrado correctamente
+          "401":
+            description: No está autorizado o no envió ningun token
+          "404":
+            description: No se pudo encontrar el producto
+
+components:
+  schemas:
+    Product:
+      type: object
+      properties:
+        _id:
+          type: ObjectId
+          description: ID autogenerado de mongo
+        title:
+          type: String
+          description: Nombre del producto
+        description:
+          type: String
+          description: Descripcion del producto
+        price:
+          type: Float
+          description: Precio, debe ser un numero positivo
+        thumbnail:
+          type: String
+          description: Miniatura del producto
+        code:
+          type: String
+          desciption: Codigo del prodcuto, debe ser unico
+        stock:
+          type: Integer
+          desciption: Cantidad disponible del producto, debe ser un entero positivo
+        category:
+          type: Array
+          desciption: Lista de categorias a la que pertenece el producto
+        owner:
+          type: String
+          desciption: Propietario del producto, por defecto es admin
+        hasStock:
+          type: Bool
+          desciption: Indica si este producto tiene unidades disponibles
+      example:
+        _id: ObjectId("6504b7599b7d3d94cce06998")
+        title: Zapatillas Nike
+        description: Calzado deportivo
+        price: 30.5
+        thumbnail: imagen.jpg
+        code: PROD001
+        stock: 10
+        category: [Category3]
+        owner: Pedro@hotmail.com
+        hasStock: true
+  requestBodies:
+    postProducts:
+      type: object
+      properties:
+        title:
+          type: String
+          description: Nombre del producto
+        description:
+          type: String
+          description: Descripcion del producto
+        price:
+          type: Float
+          description: Precio, debe ser un numero positivo
+        thumbnail:
+          type: String
+          description: Miniatura del producto
+        code:
+          type: String
+          desciption: Codigo del prodcuto, debe ser unico
+        stock:
+          type: Integer
+          desciption: Cantidad disponible del producto, debe ser un entero positivo
+        category:
+          type: Array
+          desciption: Lista de categorias a la que pertenece el producto
+      example:
+        {
+          title: Zapatillas Nike,
+          description: Calzado deportivo,
+          price: 30.5,
+          thumbnail: imagen.jpg,
+          code: PROD0564,
+          stock: 10,
+          category: [Category3],
+        }
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT

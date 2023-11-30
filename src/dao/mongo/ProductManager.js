@@ -4,7 +4,7 @@ export class ProductManager {
   constructor() {}
   getProds = async(limit,page,sort,query) => {
     limit = limit || 10
-    page = page|| 1
+    page = page || 1
     sort = sort || ""
     let products
     let filter = {}

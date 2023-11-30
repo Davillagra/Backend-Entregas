@@ -20,6 +20,8 @@ import { options } from "./config/options.js"
 import { productMethod } from "./dao/factory.js"
 import mockingRouter from "./routes/mockingProducts.js"
 import loggerTestRouter from "./routes/loggerTest.js"
+import swaggerJSDoc from 'swagger-jsdoc';
+import swaggerUiExpress from 'swagger-ui-express'
 
 const app = express()
 app.use(express.json())
@@ -34,6 +36,16 @@ mongoose.connect(options.mongoDB.url,{
     useNewUrlParser:true,
     useUnifiedTopology:true
 })
+const swaggerOptions = {
+    definition: {
+        openapi: '3.0.1',
+        info: {
+            title: 'Documentacion de la API',
+            description: 'Controladores de productos y carritos'
+        }
+    },
+    apis: [`${__dirname}/docs/**/*.yaml`]
+}
 
 app.use(session({
     store: MongoStore.create({
@@ -59,6 +71,7 @@ app.use("/api/sessions",sessionRouter)
 app.use("/mockingproducts",mockingRouter)
 app.use("/loggertest",loggerTestRouter)
 app.use("/api/users/premium",usersRouter)
+app.use('/api/docs', swaggerUiExpress.serve, swaggerUiExpress.setup(swaggerJSDoc(swaggerOptions)))
 
 const server = app.listen(8080,()=>{console.log(`Servidor en linea en el puerto 8080`)})
 const io = new Server(server)
