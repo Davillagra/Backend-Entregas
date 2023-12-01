@@ -31,10 +31,16 @@ export const newJwt = async (req, res) => {
 // }
 
 export const verifyTokenAdmin = (req, res, next) => {
-  const authHeader =
-    req.headers["authorization"] || req.headers["Authorization"]
+  const authHeader = req.headers["authorization"] || req.headers["Authorization"]
   if (!authHeader) {
-    return res.status(401).json({ message: "No token provided" })
+    const session = req.session
+    if(session){
+      if(session.user.role === "admin"){
+        return next()
+      }
+    } else {
+      return res.status(401).json({ message: "No token provided" })
+    }
   }
   const tokenParts = authHeader.split(" ")
   if (tokenParts.length !== 2 || tokenParts[0] !== "Bearer") {

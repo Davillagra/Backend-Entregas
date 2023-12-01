@@ -20,7 +20,7 @@ if(form){
         if(json.status === "error"){
             return alert("Datos incorrectos")
         } if(json.payload.role === "admin") {
-            localStorage.setItem('token', token)
+            localStorage.setItem('token',json.token)
             window.location.replace('/products/admin')
         } else {
             localStorage.setItem('token', json.token)
