@@ -15,3 +15,19 @@ export const switchRole = async (req, res) => {
     res.status(500).json({ status:"error", message: "Internal Server Error" })
   }
 }
+
+export const deleteUser = async (req, res) => {
+  const _id = req.params.id
+  try {
+    const result = await usersModel.deleteOne({ _id })
+    if (result.deletedCount === 0) {
+      req.logger.info("User not found")
+      res.status(404).send({ status: "error", message: "User not found" })
+    } else {
+      req.logger.info("User deleted")
+      res.send({ status: "success", message: "User deleted successfully" })
+    }
+  } catch (error) {
+    res.status(500).send({ status: "error", message: "Internal server error" })
+  }
+}

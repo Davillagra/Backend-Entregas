@@ -70,7 +70,7 @@ app.use(viewRouter)
 app.use("/api/sessions",sessionRouter)
 app.use("/mockingproducts",mockingRouter)
 app.use("/loggertest",loggerTestRouter)
-app.use("/api/users/premium",usersRouter)
+app.use("/api/users",usersRouter)
 app.use('/api/docs', swaggerUiExpress.serve, swaggerUiExpress.setup(swaggerJSDoc(swaggerOptions)))
 
 const server = app.listen(8080,()=>{console.log(`Servidor en linea en el puerto 8080`)})

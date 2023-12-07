@@ -7,6 +7,9 @@ export const getProducts = async (req,res)=>{
     const query = req.query.query
     const sort = req.query.sort
     const products = await productMethod.getProds(limit,page,sort,query)
+    if(!products){
+        res.status(500).send({status:"error",message:"Can't reach DB"})
+    }
     res.send({
         status:"succes",
         payload:products.docs,

@@ -8,7 +8,7 @@ router.post("/",verifyToken, postNewCart)
 router.get("/:cid", getCart)
 router.post("/:cid/product/:pid",verifyToken, pushProducts)
 router.delete(`/:cid/product/:pid`,verifyToken, removeProduct)
-router.delete(`/:cid`, removeCart)
+router.delete(`/:cid`, removeCart) // hacé esto bien porfa
 router.put("/:cid",verifyToken, putProducts)
 router.put("/:cid/product/:pid",verifyToken, upateQuantity)
 router.delete(`/:cid/products`,verifyToken, removeProducts)

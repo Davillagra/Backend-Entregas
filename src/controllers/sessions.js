@@ -32,12 +32,13 @@ export const faillogin = (req, res) => {
 }
 
 export const signup = async (req, res) => {
-  res.send({ status: "success", message: "Usuario registrado" })
+  const {_id} = req.body
+  res.send({ status: "success", message: "Usuario registrado",_id })
 }
 
 export const failSignup = async (req, res) => {
   req.logger.error("Failed signup")
-  res.send({ status: "error", message: "Failed login" })
+  res.send({ status: "error", message: "Failed signup" })
 }
 
 export const logout = (req, res) => {

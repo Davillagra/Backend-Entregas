@@ -194,3 +194,46 @@ error: No cart found for id: 65524eb3e0eada23c175411
 error: No cart found for id: 65524eb3e0eada23c175411
 error: No cart found for id: 6568aff4d091feef3476bc1
 error: Internal Server Error
+info: Must login firts
+error: Failed login
+error: Cast to ObjectId failed for value "6504b7599b7d3d94cce0699" (type string) at path "_id" for model "products"
+error: No products found for id: 6504b7599b7d3d94cce06993
+error: E11000 duplicate key error collection: Ecomerce.products index: code_1 dup key: { code: "PROD05237" }
+error: E11000 duplicate key error collection: Ecomerce.products index: code_1 dup key: { code: "PROD05237" }
+error: E11000 duplicate key error collection: Ecomerce.products index: code_1 dup key: { code: "PROD05237" }
+error: E11000 duplicate key error collection: Ecomerce.products index: code_1 dup key: { code: "PROD05237" }
+error: E11000 duplicate key error collection: Ecomerce.products index: code_1 dup key: { code: "PROD05237" }
+error: E11000 duplicate key error collection: Ecomerce.products index: code_1 dup key: { code: "PROD05237" }
+error: No products found for id: 6504b7599b7d3d94cce06999
+error: E11000 duplicate key error collection: Ecomerce.products index: code_1 dup key: { code: "PROD05237" }
+error: No products found for id: 6504b7599b7d3d94cce06999
+error: No products found for id: 6504b7599b7d3d94cce06999
+error: No products found for id: 6504b7599b7d3d94cce06999
+error: Cast to ObjectId failed for value "6504b7599b7d3d94cce0699" (type string) at path "_id" for model "products"
+error: E11000 duplicate key error collection: Ecomerce.products index: code_1 dup key: { code: "PROD052945213" }
+error: Cast to ObjectId failed for value "undefined" (type string) at path "_id" for model "products"
+error: No product found for id: undefined
+error: E11000 duplicate key error collection: Ecomerce.products index: code_1 dup key: { code: "PROD052945213" }
+error: Cast to ObjectId failed for value "undefined" (type string) at path "_id" for model "products"
+error: No product found for id: undefined
+error: E11000 duplicate key error collection: Ecomerce.products index: code_1 dup key: { code: "PROD052945213" }
+error: Cast to ObjectId failed for value "undefined" (type string) at path "_id" for model "products"
+error: No product found for id: undefined
+error: No cart found for id: 6570f0bc219e3c30b90f593c
+info: User not found
+info: User not found
+info: User deleted
+info: User not found
+info: User not found
+info: User deleted
+info: User not found
+info: Must login firts
+error: Failed signup
+error: Failed signup
+error: Failed signup
+error: Failed signup
+error: Failed signup
+error: Failed signup
+error: Failed signup
+error: Failed signup
+info: User deleted

@@ -25,6 +25,7 @@ const initializePassport = () => {
             role
           }
           let result = await usersModel.create(newUser)
+          req.body._id = result._id
           return done(null, result)
         } catch (error) {
           return done("Error obtaining users info" + error)
