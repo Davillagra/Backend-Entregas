@@ -1,7 +1,12 @@
 import mongoose from "mongoose"
 import validator from 'validator'
+
 const userCollection = `users`
 
+const documentSchema = new mongoose.Schema({
+    name: String,
+    reference: String,
+})
 
 const userSchema = new mongoose.Schema({
     first_name: String,
@@ -26,6 +31,13 @@ const userSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref:"carts"
     },
+    documents: [
+        documentSchema,
+    ],
+    last_connection: {
+        type: Date,
+        default: Date.now
+    }
 })
 
 userSchema.pre("findOne", function () {

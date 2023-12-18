@@ -17,6 +17,7 @@ export const login = async (req, res) => {
     _id: req.user._id,
     cart: req.user.cart ?? null,
   }
+  await usersModel.findByIdAndUpdate(req.session.user._id,{last_connection: Date.now()})
   let token
   if(req.user.role === "premium"){
     token = jwt.sign({ email:req.session.user.email, purpose: 'login' }, options.tokenPremium, { expiresIn: '1h' })
@@ -41,7 +42,8 @@ export const failSignup = async (req, res) => {
   res.send({ status: "error", message: "Failed signup" })
 }
 
-export const logout = (req, res) => {
+export const logout = async (req, res) => {
+  await usersModel.findByIdAndUpdate(req.session.user._id,{last_connection: Date.now()})
   req.session.destroy((error) => {
     if (error) {
       req.logger.error("Cannot destroy session")
@@ -82,7 +84,7 @@ export const updateSession = async (req, res) => {
   }
 }
 
-export const adminLogin = (req, res, next) => {
+export const  adminLogin = async (req, res, next) => {
   const { email, password } = req.body
   if (
     email === options.user.adminEmail &&

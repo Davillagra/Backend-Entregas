@@ -238,3 +238,22 @@ error: Failed signup
 error: Failed signup
 info: User deleted
 info: User deleted
+error: Failed login
+error: Failed login
+error: Failed login
+error: Body must be an array
+info: Invalid token
+info: Invalid token
+info: Invalid token
+error: Body must be an array
+error: Body must be an array
+error: Body must be an array
+error: Body must be an array
+error: Body must be an array
+error: Body must be an array
+error: Body must be an array
+error: Body must be an array
+error: Body must be an array
+error: Body must be an array
+error: Body must be an array or a file
+error: Body must be an array or a file

@@ -32,6 +32,7 @@ app.set(`view engine`,`handlebars`)
 app.use(express.static(__dirname + `/public`))
 app.use(addLogger)
 
+
 mongoose.connect(options.mongoDB.url,{
     useNewUrlParser:true,
     useUnifiedTopology:true
@@ -46,6 +47,7 @@ const swaggerOptions = {
     },
     apis: [`${__dirname}/docs/**/*.yaml`]
 }
+
 
 app.use(session({
     store: MongoStore.create({

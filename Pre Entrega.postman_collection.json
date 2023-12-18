@@ -93,14 +93,14 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"title\": \"Update por postman\",\r\n    \"description\": \"Descripción del Producto\",\r\n    \"price\": 10.99,\r\n    \"thumbnail\": \"imagen1.jpg\",\r\n    \"stock\": 0\r\n}",
+							"raw": "{\r\n    \"stock\": 100\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
 								}
 							}
 						},
-						"url": "localhost:8080/api/products/6504b7599b7d3d94cce06992"
+						"url": "localhost:8080/api/products/6504b7599b7d3d94cce06997"
 					},
 					"response": []
 				},
@@ -341,7 +341,7 @@
 					"response": []
 				},
 				{
-					"name": "login Copy",
+					"name": "login Admin",
 					"request": {
 						"method": "POST",
 						"header": [],
@@ -370,6 +370,84 @@
 						"method": "GET",
 						"header": [],
 						"url": "localhost:8080/api/users/premium/65131c2b465c6382ff6b0d8b"
+					},
+					"response": []
+				},
+				{
+					"name": "delete",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFkbWluQ29kZXJAY29kZXIuY29tIiwicHVycG9zZSI6ImxvZ2luIiwiaWF0IjoxNzAxOTc4NjI2LCJleHAiOjE3MDE5ODIyMjZ9.X4fPnF61VGZYypmXKZF2SF-O9NwLzYl8JXT2XgToUiU"
+							}
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": "localhost:8080/api/users/delete/657221c7aaa64c60529f78f6"
+					},
+					"response": []
+				},
+				{
+					"name": "signup",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{ \"first_name\":\"Test\", \"last_name\":\"Signup\",\"password\":\"123\", \"email\":\"test@signup.com\", \"age\":25,\"role\":\"user\" }",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "localhost:8080/api/sessions/signup"
+					},
+					"response": []
+				},
+				{
+					"name": "UploadDocument",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImRhbmllbHNlYmFzdGlhbnZpbGxhZ3JhQGhvdG1haWwuY29tIiwicHVycG9zZSI6ImxvZ2luIiwiaWF0IjoxNzAyNjY5MDgwLCJleHAiOjE3MDI2NzI2ODB9.qWLgL-mW_AXI03VrGvGsGF0VXo0J-0eNS8u7gRbSxt4"
+							}
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "file",
+									"type": "file",
+									"src": "/C:/Users/Seba/Downloads/WhatsApp Image 2023-12-05 at 23.08.44.jpeg"
+								},
+								{
+									"key": "files[0].name",
+									"value": "Archivo 1",
+									"type": "text"
+								},
+								{
+									"key": "files[0].reference",
+									"value": "linkalarchivo",
+									"type": "text"
+								},
+								{
+									"key": "files[1].name",
+									"value": "Archivo 2",
+									"type": "text"
+								},
+								{
+									"key": "files[1].reference",
+									"value": "linkalarchivo",
+									"type": "text"
+								}
+							]
+						},
+						"url": "localhost:8080/api/users/65131c2b465c6382ff6b0d8b/documents"
 					},
 					"response": []
 				}
