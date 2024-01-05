@@ -209,7 +209,7 @@ export const purchase = async (req, res) => {
       res.send({status: "success", message: "Compra exitosa", ticket:ticket})
     } else {
       req.logger.info(`Some product/s are not avialable ${unavailable}`)
-      res.status(400).send({ status: "error", message: `Some product/s are not avialable ${unavailable}`})
+      res.status(400).send({ status: "error", message: `Some product/s are not avialable`,data:unavailable})
     }
   }
 }

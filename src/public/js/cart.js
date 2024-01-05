@@ -33,7 +33,7 @@ if (confirmBuy) {
         })
         } else {
           const data = await res.json()
-          const showProds = await data.unavailable.map((p) => p.title).join(', ')
+          const showProds = await data.data.map((p) => p.title).join(', ')
           Swal.fire({
             icon: 'error',
             title: `Algunos productos superan el Stock`,
@@ -61,11 +61,15 @@ const removeFromCart = ()=>{
           const oldQuantity = formData.get('oldQuantity')
           const newQuantity = oldQuantity-quantity
           const obj = {quantity:newQuantity}
-          console.log(_id)
-          if(newQuantity==0){
+          console.log(newQuantity)
+          if(newQuantity!=0){
             try {
               const response = await fetch(`/api/cart/${cid}/product/${_id}`,{
-              method: "DELETE",
+              method: "PUT",
+              body: JSON.stringify(obj),
+              headers: {
+                  'Content-Type': 'application/json'
+              }
             }) 
             if(response.ok){
               Swal.fire({
@@ -83,12 +87,8 @@ const removeFromCart = ()=>{
             
           } else {
             try {
-            const response = await fetch(`/api/cart/${cid}/products/${_id}`,{
-              method: "PUT",
-              body: JSON.stringify(obj),
-              headers: {
-                  'Content-Type': 'application/json'
-              }
+            const response = await fetch(`/api/cart/${cid}/products`,{
+              method: "DELETE",
             })
             if(response.ok) {
               const data = await response.json()
