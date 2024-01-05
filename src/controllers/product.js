@@ -1,3 +1,4 @@
+import { transport } from "../config/trasnport.js"
 import {productMethod} from "../dao/factory.js"
 import {io} from "../index.js"
 
@@ -81,10 +82,22 @@ export const deleteProduct = async (req,res)=>{
         if(!deleteProduct.deletedCount == 0){
         const data = await productMethod.getProds()
         io.emit("change", {data})
-        res.send({status:"success",message:deleteProduct})
+        transport.sendMail({
+            from: `Ecomerce`,
+            to: product.owner,
+            html: `
+            <div>
+                <h1>Lo sentimos</h1>
+                <a>Tu producto fue eliminado por un admin</a>
+            </div>
+            `,
+            attachments: [],
+          })
+        req.logger.info(`Product ${product.title} deleted`)
+        return res.send({status:"success",message:deleteProduct})
         } else {
         req.logger.error(`No product found for id: ${productID}`)
-        res.status(404).send({status:"error",message:`No product found for id: ${productID}`})
+        return res.status(404).send({status:"error",message:`No product found for id: ${productID}`})
         }
     } else {
         req.logger.error(`You don't have permisions to delete`)

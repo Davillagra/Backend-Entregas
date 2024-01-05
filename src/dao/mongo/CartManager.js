@@ -19,23 +19,6 @@ export class CartManager {
           return error
         }
       }
-      // pushProducts = async (cid,pid)=>{
-      //   try {
-      //     const cart = await this.getCartById(cid)
-      //     if(cart) {
-      //       const index = cart.products.findIndex((p) => p.product._id.toString() === pid)
-      //       if (index !== -1) {
-      //         cart.products[index].quantity += 1
-      //     } else {
-      //         cart.products.push({ product:pid, quantity: 1 })
-      //     }
-      //     }
-      //     await cart.save()
-      //     return cart
-      //   } catch (error) {
-      //     return error
-      //   }
-      // }
       pushProducts = async (cid, pid) => {
         try {
           const updatedCart = await cartModel.findOneAndUpdate(

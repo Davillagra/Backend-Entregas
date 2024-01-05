@@ -1,5 +1,5 @@
 import { Router } from "express"
-import { deleteUser, switchRole, uploadDocument } from "../controllers/users.js"
+import { deleteUser, switchRole, uploadDocument, getUsers, deleteInactive } from "../controllers/users.js"
 import { verifyToken, verifyTokenAdmin } from "../controllers/jwt.js"
 import multer from "multer"
 import { v4 } from 'uuid'
@@ -34,5 +34,7 @@ export const uploadMulter = multer({ storage: storage })
 router.get("/premium/:uid", verifyTokenAdmin, switchRole)
 router.post("/:uid/documents", verifyToken, uploadMulter.any(), uploadDocument)
 router.delete("/delete/:id", verifyTokenAdmin, deleteUser)
+router.get("/", verifyTokenAdmin, getUsers)
+router.delete("/",verifyToken, deleteInactive)
 
 export default router

@@ -22,7 +22,8 @@ const initializePassport = () => {
             email,
             age,
             password: createHash(password),
-            role
+            role,
+            last_connection: new Date()
           }
           let result = await usersModel.create(newUser)
           req.body._id = result._id

@@ -1,0 +1,70 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+  }
+  .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+  }
+  h1 {
+    text-align: center;
+    font-size: 24px;
+  }
+  h2{
+      text-align: center;
+      font-size: 18px;
+  }
+  .navigation {
+      display: flex;
+      justify-content: center;
+  }
+  #productos {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  .producto {
+    border: 1px solid #ccc;
+    margin: 10px;
+    padding: 20px;
+    text-align: center;
+    flex-basis: calc(33.33% - 20px);
+  }
+  
+  .producto p {
+    margin: 0;
+    padding: 5px;
+  }
+  .prodCard {
+    border: 1px black solid;
+    border-radius: 5px;
+    padding: 3%;
+    margin-left: 1rem;
+    margin-right: 1rem;
+    width: 30%;
+    margin-bottom: 1rem;
+  }
+  
+  .pagination {
+    text-align: center;
+    margin-top: 20px;
+  }
+  
+  button {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 10px 0;
+    cursor: pointer;
+  }
+  button a{
+      text-decoration: none;
+      color: white;
+  }

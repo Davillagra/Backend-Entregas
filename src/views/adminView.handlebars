@@ -1,0 +1,25 @@
+<head><link rel="stylesheet" type="text/css" href="/css/adminView.css"></head>
+<h1>Usuarios</h1>
+<div class="navigation">
+    <Button><a href="/profile">Ir al perfil</a></Button>
+    <Button><a href="/products/admin">Ir a productos</a></Button>
+</div>
+<div id="userList">
+    {{#each usersArray}}
+    <form class="userCard" id="userCard">
+        <input type="text" style="display: none;" name="_id" value="{{this._id}}"/>
+        <p>Nombre: {{this.first_name}}</p>
+        <p>Apellido: {{this.last_name}}</p>
+        <p>Email: {{this.email}}</p>
+        <label for="role">Rol: {{this.role}}</label>
+        <input type="checkbox">
+        <label for="opt1">Cambiar rol</label>
+        <p>Ultima coneccion: {{this.last_connection}}</p>
+        <button type="submit">Guardar</button><button class="deleteButton" value="{{this._id}}">Borrar</button>
+    </form>
+        <br>
+    {{/each}}
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="/js/adminHandler.js"></script>

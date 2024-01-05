@@ -1,3 +1,4 @@
+import { transport } from "../config/trasnport.js"
 import { usersModel } from "../models/users.js"
 import path from "path"
 
@@ -90,6 +91,57 @@ export const deleteUser = async (req, res) => {
       req.logger.info("User deleted")
       res.send({ status: "success", message: "User deleted successfully" })
     }
+  } catch (error) {
+    res.status(500).send({ status: "error", message: "Internal server error" })
+  }
+}
+
+export const getUsers = async (req,res) => {
+  try {
+    const result = await usersModel.find()
+    res.send({ status: "success", message: result })
+  } catch (error) {
+    res.status(500).send({ status: "error", message: "Internal server error" })
+  }
+}
+
+export const deleteInactive = async (req,res) => {
+  try {
+    const idsToDelete = []
+    const result = await usersModel.find()
+    result.forEach((e)=>{
+      if(!e.last_connection) {
+        idsToDelete.push(e._id)
+      }
+      const currentDate = new Date()
+      const timeDifference =  currentDate - e.last_connection
+      const daysDifference = (Math.floor( timeDifference / (1000 * 60 * 60 * 24)))
+      if(daysDifference > 6) {
+        idsToDelete.push({_id:e._id,email:e.email})
+      }
+    })
+    if(idsToDelete.length > 0){
+      let amount = 0
+      idsToDelete.forEach(async (e)=>{
+        amount ++
+        transport.sendMail({
+          from: `Ecomerce`,
+          to: e.email,
+          html: `
+          <div>
+              <h1>Lo sentimos</h1>
+              <a>Tu cuenta ha superado el periodo de inactividad y fue borrada</a>
+          </div>
+          `,
+          attachments: [],
+        })
+        await usersModel.deleteOne({_id:e._id})
+      })
+      req.logger.info(`${amount} user/s deleted`)
+      return res.send({ status: "success", message: `${amount} user/s deleted`})
+    } else {
+      return res.send({ status: "success", message: "No inactive users" })
+    } 
   } catch (error) {
     res.status(500).send({ status: "error", message: "Internal server error" })
   }

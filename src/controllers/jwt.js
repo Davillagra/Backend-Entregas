@@ -5,6 +5,7 @@ export const verifyTokenAdmin = (req, res, next) => {
   const authHeader = req.headers["authorization"] || req.headers["Authorization"]
   if (!authHeader) {
     const session = req.session
+    
     if(session.user){
       if(session.user.role === "admin"){
         return next()

@@ -257,3 +257,15 @@ error: Body must be an array
 error: Body must be an array
 error: Body must be an array or a file
 error: Body must be an array or a file
+info: 0 user/s deleted
+error: Failed signup
+info: 0 user/s deleted
+info: 0 user/s deleted
+error: Failed login
+info: 0 user/s deleted
+error: Failed login
+info: 1 user/s deleted
+info: 1 user/s deleted
+error: No product found for id: 6504b7599b7d3d94cce06998
+info: Product Producto 6 deleted
+info: User deleted

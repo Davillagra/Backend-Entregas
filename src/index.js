@@ -1,13 +1,15 @@
 import express from "express"
 import productsRouter from "./routes/product.js"
 import cartsRouter from "./routes/cart.js"
-import handlebars from "express-handlebars"
+import exphbs from "express-handlebars"
+import handlebars from 'handlebars'
 import __dirname, { addLogger } from "./utils.js"
 import { Server } from "socket.io"
 import mongoose from "mongoose"
 import chatRouter from "./routes/chat.js"
 import viewProductsRouter from "./routes/viewProducts.js"
 import viewCartsRouter from "./routes/viewCarts.js"
+import adminViewRouter from "./routes/adminView.js"
 import ChatManager from "./dao/mongo/ChatManager.js"
 import viewRouter  from "./routes/views.js"
 import sessionRouter from "./routes/sessions.js"
@@ -26,9 +28,10 @@ import swaggerUiExpress from 'swagger-ui-express'
 const app = express()
 app.use(express.json())
 app.use(express.urlencoded({extended: true}))
-app.engine(`handlebars`, handlebars.engine())
+app.engine('handlebars', exphbs.engine())
 app.set(`views`,__dirname + `/views`)
 app.set(`view engine`,`handlebars`)
+
 app.use(express.static(__dirname + `/public`))
 app.use(addLogger)
 
@@ -58,6 +61,7 @@ app.use(session({
     resave: false,
     saveUninitialized: false
 }))
+
 app.use('/public', express.static('public'));
 initializePassport()
 app.use(passport.initialize())
@@ -68,6 +72,7 @@ app.use("/api/cart",cartsRouter)
 app.use("/api/chat",chatRouter)
 app.use("/products",viewProductsRouter)
 app.use("/carts",viewCartsRouter)
+app.use("/users", adminViewRouter)
 app.use(viewRouter)
 app.use("/api/sessions",sessionRouter)
 app.use("/mockingproducts",mockingRouter)
