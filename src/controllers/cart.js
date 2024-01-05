@@ -164,7 +164,12 @@ export const removeProducts = async (req, res) => {
 
 export const purchase = async (req, res) => {
   const cid = req.params.cid
-  const email = req.decodedToken.email
+  let email
+  if(req.decodedToken){
+    email = req.decodedToken.email
+  } else {
+    email = req.session.user.email
+  }
   const cart = await cartMethod.getCartById(cid)
   if (cart.message) {
     req.logger.error(`No cart found for id: ${cid}`)

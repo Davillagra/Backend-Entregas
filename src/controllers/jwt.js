@@ -85,7 +85,14 @@ export const verifyTokenAdminOrPremium = (req, res, next) => {
 export const verifyToken = (req, res, next) => {
   const authHeader = req.headers["authorization"] || req.headers["Authorization"]
   if (!authHeader) {
+    const session = req.session
+    if(session.user){
+      if(session.user.role){
+        return next()
+      }
+    } else {
       return res.status(401).json({ message: "No token provided" })
+    }
   }
   const tokenParts = authHeader.split(" ")
   if (tokenParts.length !== 2 || tokenParts[0] !== "Bearer") {
