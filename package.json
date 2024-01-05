@@ -4,9 +4,9 @@
   "description": "trabajando con npm",
   "main": "ProductManager.js",
   "scripts": {
-    "start": "cross-env NODE_ENV=prod node .\\src\\index.js",
-    "dev": "cross-env NODE_ENV=dev nodemon .\\src\\index.js",
-    "test": ".\\node_modules\\.bin\\mocha .\\test\\ecomerce.test.js"
+    "start":"cross-env NODE_ENV=prod node ./src/index.js",
+    "dev": "cross-env NODE_ENV=dev nodemon ./src/index.js",
+    "test": "./node_modules/.bin/mocha ./test/ecomerce.test.js"
   },
   "author": "Sebastian",
   "license": "ISC",

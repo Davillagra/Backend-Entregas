@@ -80,7 +80,7 @@ app.use("/loggertest",loggerTestRouter)
 app.use("/api/users",usersRouter)
 app.use('/api/docs', swaggerUiExpress.serve, swaggerUiExpress.setup(swaggerJSDoc(swaggerOptions)))
 
-const server = app.listen(8080,()=>{console.log(`Servidor en linea en el puerto 8080`)})
+const server = app.listen(options.server.port || 8080,()=>{console.log(`Servidor en linea`)})
 const io = new Server(server)
 io.on(`connection`, async socket =>{
     console.log("Nuevo socket conectado")
