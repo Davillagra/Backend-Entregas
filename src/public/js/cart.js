@@ -61,7 +61,6 @@ const removeFromCart = ()=>{
           const oldQuantity = formData.get('oldQuantity')
           const newQuantity = oldQuantity-quantity
           const obj = {quantity:newQuantity}
-          console.log(newQuantity)
           if(newQuantity!=0){
             try {
               const response = await fetch(`/api/cart/${cid}/product/${_id}`,{
